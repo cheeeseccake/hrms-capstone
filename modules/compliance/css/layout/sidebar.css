@@ -8,27 +8,25 @@
         height: 100vh;
         overflow-y: auto;
         z-index: 1000;
-        scrollbar-width: auto;
-        scrollbar-color: var(--color7) transparent;
+        /* Keep the sidebar scrollable but never draw its scrollbar. */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
         transition: transform 0.3s ease;
+
+        /* Vertical rhythm of the sidebar: one gap between modules (Employee
+           Health, Supply Management, Reports & Insights, â€¦), and a tighter gap
+           between a section heading and the links beneath it. */
+        --sidebar-module-gap: 1.15rem;
+        --sidebar-heading-gap: 0.6rem;
+
+        /* Shared left indent: headings and links line up on the same edge. */
+        --sidebar-item-indent: 0.5rem;
     }
 
     .sidebar::-webkit-scrollbar {
-        width: 8px;
-        display: block;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-        background: #1c5a8a;
-        border-radius: 4px;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb:hover {
-        background: #1c5a8a;
+        display: none;
+        width: 0;
+        height: 0;
     }
 
     /* Hide sidebar on desktop when toggled */
@@ -113,8 +111,8 @@
         font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-bottom: 1rem;
-        padding-left: 0.5rem;
+        margin: 0 0 var(--sidebar-heading-gap);
+        padding-left: var(--sidebar-item-indent);
     }
 
     .sidebar h3 {
@@ -122,45 +120,33 @@
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 0.75rem;
-        padding-left: 0.5rem;
+        margin: 0 0 var(--sidebar-heading-gap);
+        padding-left: var(--sidebar-item-indent);
     }
 
     .sidebar ul {
         list-style: none;
-        padding-right: 0.5rem;
-        margin-right: -0.5rem;
-    }
-
-    .sidebar ul::-webkit-scrollbar {
-        width: 6px;
-        display: block;
-    }
-
-    .sidebar ul::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .sidebar ul::-webkit-scrollbar-thumb {
-        background: #1c5a8a;
-        border-radius: 3px;
-    }
-
-    .sidebar ul::-webkit-scrollbar-thumb:hover {
-        background: #1c5a8a;
+        margin: 0;
     }
 
     .sidebar .menu-link {
         display: flex;
         align-items: center;
         gap: 0.8rem;
-        padding: 0.8rem 0.5rem;
+        padding: 0.85rem var(--sidebar-item-indent);
         color: var(--color3);
         text-decoration: none;
         border-radius: 8px;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.7rem;
         font-size: 0.95rem;
         transition: none !important;
+    }
+
+    /* The last link of a module sits flush with the module gap, so every
+       module is separated by exactly --sidebar-module-gap. */
+    .sidebar ul > li:last-child > .menu-link,
+    .sidebar ul > li:last-child > .active-menu-link {
+        margin-bottom: 0;
     }
 
     .sidebar .menu-link i {
@@ -182,15 +168,15 @@
 
     .sidebar .menu-link.prev-page-link {
         border-left: none;
-        padding-left: 0.5rem;
+        padding-left: var(--sidebar-item-indent);
         background: transparent;
         transition: none !important;
     }
 
     .separator {
-        height: 0.5px;
+        height: 1px;
         background: var(--color4);
-        margin: 1rem 0;
+        margin: var(--sidebar-module-gap) 0;
     }
 
     .active-menu-link {
@@ -201,10 +187,10 @@
         display: flex;
         align-items: center;
         gap: 0.8rem;
-        padding: 0.8rem 0.5rem;
+        padding: 0.85rem var(--sidebar-item-indent);
         text-decoration: none;
         border-radius: 8px;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.7rem;
         font-size: 0.95rem;
     }
 
@@ -262,7 +248,7 @@
         }
 
         .sidebar .menu-link {
-            padding: 0.6rem 0.8rem;
+            padding: 0.7rem var(--sidebar-item-indent);
             font-size: 0.9rem;
         }
 

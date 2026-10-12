@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Employee Health — flash messages
+
+   Inline status flashes for the health profile (saved / error / unavailable).
+   Visual language follows the shared flash pattern used across the modules
+   (compliance .lc-flash in module-container.css, clinic inventory flash):
+   tinted surface, colored border and text on the same hue, compact bold
+   typography, optional leading icon.
+   ========================================================================== */
+
+.eh-flash {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border, #e4e8ee);
+  border-radius: 6px;
+  background: var(--card-bg, #fff);
+  color: var(--text-700, #334155);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  animation: ehFlashIn 0.25s ease-out;
+}
+/* Flashes are also rendered as paragraphs (e.g. "temporarily unavailable"). */
+p.eh-flash { margin: 0 0 12px; }
+
+/* Optional leading icon (Font Awesome), aligned with the first text line. */
+.eh-flash > i,
+.eh-flash > .eh-flash-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* ── Success ── */
+.eh-flash--success {
+  background: var(--success-50, #ecfdf5);
+  color: var(--success-700, #047857);
+  border-color: var(--success-100, #d1fae5);
+}
+
+/* ── Error ── */
+.eh-flash--error {
+  background: var(--danger-50, #fef2f2);
+  color: var(--danger-700, #b91c1c);
+  border-color: var(--danger-100, #fee2e2);
+}
+
+/* ── Neutral / informational ── */
+.eh-flash--info {
+  background: var(--slate-50, #f8fafc);
+  color: var(--text-700, #334155);
+}
+
+/* ── Entrance animation ── */
+@keyframes ehFlashIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eh-flash { animation: none; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .eh-flash { padding: 9px 12px; font-size: 11.5px; }
+  .eh-flash > i,
+  .eh-flash > .eh-flash-icon { font-size: 11.5px; }
+}
+
+/* Flashes are transient status chrome: keep them out of printouts. */
+@media print {
+  .eh-flash { display: none !important; }
+}

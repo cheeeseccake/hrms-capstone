@@ -9,19 +9,35 @@
 
     export function initTabs() {
     const tabItems = document.querySelectorAll('.tab-item');
-    const tabContents = document.querySelectorAll('.tab-content');
 
     if (!tabItems.length) return;
 
     tabItems.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-        tabItems.forEach(function (t) { t.classList.remove('active'); });
-        tabContents.forEach(function (c) { c.classList.remove('active'); });
+        // Tab switching is also handled by layout/tab-content.js. Only one
+        // handler may own a tab: a second handler conflicts with the first
+        // because both clear the active panel before setting a new one.
+        if (tab.dataset.tabInit === '1') return;
 
-        tab.classList.add('active');
-        const target = document.getElementById(tab.getAttribute('data-tab'));
+        tab.addEventListener('click', function () {
+        // Scope to the containing tab-container so sibling tab groups on the
+        // same page are unaffected.
+        const container = this.closest('.tab-container') || document;
+        const containerTabs = container.querySelectorAll('.tab-item');
+        const containerContents = container.querySelectorAll('.tab-content');
+
+        containerTabs.forEach(function (t) { t.classList.remove('active'); });
+        containerContents.forEach(function (c) { c.classList.remove('active'); });
+
+        this.classList.add('active');
+
+        // Panels are identified by a data-tab attribute; the id lookup is kept
+        // only as a fallback for older markup.
+        let target = container.querySelector('.tab-content[data-tab="' + this.dataset.tab + '"]');
+        if (!target) target = document.getElementById(this.dataset.tab);
         if (target) target.classList.add('active');
         });
+
+        tab.dataset.tabInit = '1';
     });
     }
 

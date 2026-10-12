@@ -42,3 +42,10 @@ modules/compliance/lib/ajax/*.log
 # Uploaded employee, payroll, and termination records
 /modules/exit/uploads/
 /modules/payroll/uploads/
+/modules/clinic/lib/config/email_config.php
+/modules/clinic/database/db2.php
+/modules/clinic/logs/notifications.log
+/repo.zip
+
+# Composer dependencies - install using Composer
+/modules/clinic/vendor/

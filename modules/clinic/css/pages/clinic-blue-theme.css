@@ -1,0 +1,243 @@
+/* Shared white and clinic-blue theme for the main Clinic pages. */
+.main-content > .container {
+  padding: 0.5rem 1rem 1rem;
+  background: transparent;
+}
+
+.clinic-page-content {
+  min-height: 1px;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.clinic-inventory,
+.clinic-inventory *,
+.clinic-dashboard,
+.clinic-dashboard *,
+.clinic-reports,
+.clinic-reports *,
+.clinic-visits,
+.clinic-visits *,
+.eh-module,
+.eh-module *,
+.eh-toast-stack,
+.eh-toast-stack * {
+  color: #174b91 !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border-color: #174b91 !important;
+  box-shadow: none !important;
+}
+
+.eh-module .eh-avatar,
+.eh-avatar {
+  color: #fff !important;
+  background-color: #174b91 !important;
+}
+
+.clinic-inventory :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+.clinic-dashboard :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+.clinic-reports :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+.clinic-visits :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+.eh-module :is(button, a, input, select, textarea, [tabindex]):focus-visible,
+.eh-toast-stack :is(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid #174b91 !important;
+  outline-offset: 2px;
+}
+
+.clinic-inventory :is(.clinic-inventory__button--primary, .clinic-inventory__stock-dialog button[type="submit"]),
+.clinic-dashboard .clinic-dashboard__action,
+.clinic-reports .clinic-reports__button--primary,
+.clinic-visits .clinic-visits__primary-action,
+.clinic-visits .clinic-visits__filters button,
+.eh-module :is(.eh-btn--primary, .eh-btn--success, .eh-visit-welcome__action),
+.eh-toast-stack .eh-side-list li::before {
+  color: #fff !important;
+  background-color: #174b91 !important;
+  border-color: #174b91 !important;
+}
+
+.clinic-inventory :is(input, select, textarea),
+.clinic-dashboard :is(input, select, textarea),
+.clinic-reports :is(input, select, textarea),
+.clinic-visits :is(input, select, textarea),
+.eh-module :is(input, select, textarea),
+.eh-toast-stack :is(input, select, textarea) {
+  accent-color: #174b91;
+}
+
+.clinic-inventory .clinic-inventory__dialog::backdrop {
+  background: rgb(23 75 145 / 35%) !important;
+}
+
+.clinic-inventory__toast-stack .clinic-inventory__toast,
+.clinic-inventory__toast-stack .clinic-inventory__toast--success,
+.clinic-inventory__toast-stack .clinic-inventory__toast--error {
+  color: #174b91 !important;
+  background: #fff !important;
+  background-image: none !important;
+  border-color: #174b91 !important;
+  box-shadow: none !important;
+}
+
+.clinic-inventory .clinic-inventory__notification,
+.clinic-inventory .clinic-inventory__notification .clinic-inventory__notification-icon,
+.clinic-inventory .clinic-inventory__notification .clinic-inventory__icon-btn,
+#clinicInventoryAlertHost .clinic-inventory__notification,
+#clinicInventoryAlertHost .clinic-inventory__notification .clinic-inventory__notification-icon,
+#clinicInventoryAlertHost .clinic-inventory__notification .clinic-inventory__icon-btn {
+  color: #174b91 !important;
+  background: #fff !important;
+  background-image: none !important;
+  border-color: #174b91 !important;
+  box-shadow: none !important;
+}
+
+.clinic-inventory .clinic-inventory__notification--low strong,
+.clinic-inventory .clinic-inventory__notification--low p,
+.clinic-inventory .clinic-inventory__notification--out strong,
+.clinic-inventory .clinic-inventory__notification--out p,
+.clinic-inventory .clinic-inventory__notification--expiring strong,
+.clinic-inventory .clinic-inventory__notification--expiring p,
+.clinic-inventory .clinic-inventory__notification--updated strong,
+.clinic-inventory .clinic-inventory__notification--updated p,
+#clinicInventoryAlertHost .clinic-inventory__notification strong,
+#clinicInventoryAlertHost .clinic-inventory__notification p {
+  color: #174b91 !important;
+}
+
+.clinic-inventory :is(button, a):hover,
+.clinic-dashboard :is(button, a):hover,
+.clinic-reports :is(button, a):hover,
+.clinic-visits :is(button, a):hover,
+.eh-module :is(button, a):hover,
+.eh-toast-stack :is(button, a):hover {
+  color: #174b91 !important;
+  background-color: #fff !important;
+  border-color: #174b91 !important;
+}
+
+.clinic-inventory .clinic-inventory__button--primary:hover,
+.clinic-dashboard .clinic-dashboard__action:hover,
+.clinic-reports .clinic-reports__button--primary:hover,
+.clinic-visits :is(.clinic-visits__primary-action, .clinic-visits__filters button):hover,
+.eh-module :is(.eh-btn--primary, .eh-btn--success, .eh-visit-welcome__action):hover {
+  color: #fff !important;
+  background-color: #174b91 !important;
+  border-color: #174b91 !important;
+}
+
+.nc-compose-wrap,
+.nc-compose-wrap *,
+.nc-notif-detail,
+.nc-notif-detail * {
+  color: #174b91 !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border-color: #174b91 !important;
+  box-shadow: none !important;
+}
+
+.nc-compose-wrap :is(.nc-btn-primary, .nc-step-number, .nc-attachment-type-badge),
+.nc-notif-detail .badge.bg-primary {
+  color: #fff !important;
+  background-color: #174b91 !important;
+  border-color: #174b91 !important;
+}
+
+.nc-notif-detail .nc-history-card.selected,
+.nc-notif-detail .nc-history-card.selected:hover {
+  color: #174b91 !important;
+  background-color: #fff !important;
+  border-color: #174b91 !important;
+  box-shadow: none !important;
+}
+
+.nc-compose-wrap :is(input, select, textarea) {
+  accent-color: #174b91;
+}
+
+.nc-compose-wrap :is(button, a):hover,
+.nc-notif-detail :is(button, a):hover {
+  color: #174b91 !important;
+  background-color: #fff !important;
+  border-color: #174b91 !important;
+}
+
+.nc-compose-wrap .nc-btn-primary:hover {
+  color: #fff !important;
+  background-color: #123d77 !important;
+  border-color: #123d77 !important;
+}
+
+#bellDropdown,
+#notifDetailDropdown,
+.icon-dropdown#bellDropdown,
+.icon-dropdown#notifDetailDropdown {
+  color: #174b91 !important;
+  background: #fff !important;
+  border: 1px solid #174b91 !important;
+  box-shadow: 0 8px 24px rgb(23 75 145 / 16%) !important;
+}
+
+#bellDropdown .dropdown-header,
+#notifDetailDropdown .dropdown-header,
+#bellDropdown .notif-item,
+#notifDetailDropdown .notif-detail-body,
+#bellDropdown .notif-list {
+  color: #174b91 !important;
+  background: #fff !important;
+  border-color: #174b91 !important;
+}
+
+#bellDropdown .dropdown-header span,
+#bellDropdown .notif-item,
+#bellDropdown .notif-item p,
+#bellDropdown .notif-item a,
+#bellDropdown .notif-preview,
+#bellDropdown .notif-time,
+#notifDetailDropdown .dropdown-header,
+#notifDetailDropdown .notif-detail-body {
+  color: #174b91 !important;
+}
+
+#bellDropdown .notif-item:hover,
+#bellDropdown .notif-item.unread,
+#bellDropdown .notif-item.unread:hover,
+#bellDropdown .notif-item:focus,
+#bellDropdown .notif-item.unread:focus {
+  color: #174b91 !important;
+  background: #fff !important;
+}
+
+#bellDropdown .notif-item.unread::after {
+  background: #174b91 !important;
+}
+
+#bellDropdown .mark-all-read,
+#bellDropdown .dropdown-footer a,
+#notifDetailDropdown .mark-all-read {
+  color: #174b91 !important;
+  background: #fff !important;
+}
+
+#bellDropdown .mark-all-read:hover,
+#notifDetailDropdown .mark-all-read:hover {
+  color: #fff !important;
+  background: #174b91 !important;
+}
+
+#bellDropdown .notif-badge,
+.notif-badge:not(.hidden) {
+  color: #fff !important;
+  background: #174b91 !important;
+  border-color: #fff !important;
+}
+
+.sidebar .notif-badge,
+.icon-wrapper .notif-badge {
+  color: #fff !important;
+  background: #dc2626 !important;
+  border-color: #fff !important;
+}

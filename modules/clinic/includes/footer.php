@@ -1,19 +1,14 @@
-<div>
+﻿<div>
     <footer>
         <p>&copy; <?php echo date('Y'); ?> School Management System. All rights reserved.</p>
     </footer>
 </div>
-    <?php
-    $clinicAlertJsFile = __DIR__ . '/../js/components/clinic-stock-alert.js';
-    $clinicAlertJsVersion = @file_exists($clinicAlertJsFile) ? @filemtime($clinicAlertJsFile) : '1';
-    $clinicMainJsFile = __DIR__ . '/../js/script.js';
-    $clinicMainJsVersion = @file_exists($clinicMainJsFile) ? @filemtime($clinicMainJsFile) : '1';
-    ?>
-    <script src="js/components/clinic-stock-alert.js?v=<?= $clinicAlertJsVersion ?>" defer></script>
-    <script type="module" src="js/script.js?v=<?= $clinicMainJsVersion ?>"></script>
+    <script src="js/fullcalendar.global.min.js"></script>
+    <script src="js/calendar.js?v=20261012-clinic-blue"></script>
+    <script type="module" src="js/script.js?v=20261012-password-modal-spa-fix"></script>
 
-<!-- HRMS LOGIN DISCLAIMER -->
-<?php require_once __DIR__ . '/../../../auth/login-disclaimer.php'; ?>
-<!-- /HRMS LOGIN DISCLAIMER -->
+<!-- Clinic login disclaimer -->
+<?php require_once __DIR__ . '/login-disclaimer.php'; ?>
+<!-- /Clinic login disclaimer -->
 </body>
 </html>

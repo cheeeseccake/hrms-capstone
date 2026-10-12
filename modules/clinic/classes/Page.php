@@ -2,23 +2,47 @@
 class Page
 {
     private $default = 'dashboard-overview';
-    private $pagesDir;
+    private ?string $pagesDir = null;
     private $allowed = [];
 
-    private $labels = [
-        'dashboard-overview'          => 'Dashboard Overview',
-        'employee'             => 'Employee / Patient',
-        'medical-records-history'  => 'Medical Records History',
-        'emergency-cases'   => 'Emergency Cases',
-        'medicines-inventory' => 'Medicines Inventory',
-        'clinic-reports' => 'Clinic Reports',
+    private array $labels = [
+        'dashboard-overview'   => 'Dashboard Overview',
+        'employee-health'      => 'Employee Health',
+        'inventory-management' => 'Inventory Management',
+        'reports-analytics'    => 'Reports and Analytics',
+        'profile-settings'     => 'Profile Settings',
+        'notification-detail' => 'Notifications',
+        'notification-compose' => 'Compose Email',
     ];
 
     private $sections = [
-        'top'             => ['dashboard-overview'],
-        'patient-records'  => ['employee', 'medical-records-history', 'emergency-cases'],
-        'pharmacy-inventory'      => ['medicines-inventory'],
-        'reports-&-analytics'       => ['clinic-reports']
+        'top' => [
+            'dashboard-overview',
+        ],
+
+        'employee-health' => [
+            'employee-health',
+        ],
+
+        'supply-management' => [
+            'inventory-management',
+        ],
+
+        'reports-insights' => [
+            'reports-analytics',
+        ],
+    ];
+
+    private $sectionLabels = [
+        'employee-health' => 'Employee Health',
+        'supply-management' => 'Supply Management',
+        'reports-insights' => 'Reports & Insights',
+    ];
+
+    private $sectionOrder = [
+        'employee-health',
+        'supply-management',
+        'reports-insights',
     ];
 
     public function __construct($pagesDir = null)
@@ -30,14 +54,27 @@ class Page
     private function discoverPages()
     {
         if (!is_dir($this->pagesDir)) return;
-        foreach (glob($this->pagesDir . '/*.php') as $file) {
-            $this->allowed[] = basename($file, '.php');
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($this->pagesDir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+        foreach ($files as $file) {
+            if ($file->getExtension() === 'php') {
+                $rel = substr($file->getPathname(), strlen($this->pagesDir) + 1);
+                $rel = substr($rel, 0, -4);
+                $rel = str_replace(DIRECTORY_SEPARATOR, '/', $rel);
+                if (str_starts_with($rel, 'labor-law-compliance/templates/')) {
+                    continue;
+                }
+                $this->allowed[] = $rel;
+            }
         }
+        sort($this->allowed);
     }
 
     public function getPage()
     {
-        if (!empty($_GET['page']) && in_array($_GET['page'], $this->allowed)) {
+        if (!empty($_GET['page']) && in_array($_GET['page'], $this->allowed, true)) {
             return $_GET['page'];
         }
         return $this->default;
@@ -47,11 +84,49 @@ class Page
     {
         $page = $this->getPage();
         $file = $this->pagesDir . '/' . $page . '.php';
+
+        ob_start();
         if (file_exists($file)) {
             include $file;
         } else {
             include $this->pagesDir . '/' . $this->default . '.php';
         }
+        $content = ob_get_clean();
+
+        $label = $this->labels[$page] ?? ucwords(str_replace('-', ' ', $page));
+        if (isset($pageTitle) && is_string($pageTitle) && $pageTitle !== '') {
+            $label = $pageTitle;
+        }
+
+        $skipHeader = false;
+        if (isset($skipModuleHeader) && $skipModuleHeader === true) {
+            $skipHeader = true;
+        }
+
+        if (!$skipHeader) {
+            /* A breadcrumb stacks below the title, so the header switches to a
+               column layout only when a page provides one. */
+            $hasBreadcrumb = isset($pageBreadcrumbHtml) && is_string($pageBreadcrumbHtml) && $pageBreadcrumbHtml !== '';
+            $hasCustomHeader = isset($moduleHeaderHtml) && is_string($moduleHeaderHtml) && $moduleHeaderHtml !== '';
+            $headerClass = $hasBreadcrumb ? 'module-header module-header--stacked' : 'module-header';
+            if ($hasCustomHeader && isset($moduleHeaderClass) && is_string($moduleHeaderClass) && preg_match('/^[a-z0-9-]+$/', $moduleHeaderClass) === 1) {
+                $headerClass .= ' ' . $moduleHeaderClass;
+            }
+            echo '<div class="' . $headerClass . '">';
+            if ($hasCustomHeader) {
+                echo $moduleHeaderHtml;
+            } else {
+                if (isset($moduleHeaderImage) && is_string($moduleHeaderImage) && $moduleHeaderImage !== '') {
+                    echo '<img src="' . htmlspecialchars($moduleHeaderImage) . '" alt="' . htmlspecialchars($label) . '" class="module-header-logo">';
+                }
+                echo '<h1>' . htmlspecialchars($label) . '</h1>';
+            }
+            if ($hasBreadcrumb) {
+                echo $pageBreadcrumbHtml;
+            }
+            echo '</div>';
+        }
+        echo '<div class="clinic-page-content">' . $content . '</div>';
     }
 
     public function isActive($page)
@@ -66,19 +141,20 @@ class Page
 
     public function renderNav()
     {
-        // Top section (no heading/separator)
+        echo '<ul>';
         foreach ($this->sections['top'] as $p) {
             $this->renderLink($p);
         }
+        echo '</ul>';
 
-        // Grouped sections
-        $sectionOrder = ['patient-records', 'pharmacy-inventory', 'reports-&-analytics'];
-        foreach ($sectionOrder as $section) {
+        foreach ($this->sectionOrder as $section) {
             echo '<div class="separator"></div>';
-            echo '<h3>' . ucwords(str_replace('-', ' ', $section)) . '</h3>';
+            echo '<h3>' . htmlspecialchars($this->sectionLabels[$section] ?? ucwords(str_replace('-', ' ', $section))) . '</h3>';
+            echo '<ul>';
             foreach ($this->sections[$section] as $p) {
                 $this->renderLink($p);
             }
+            echo '</ul>';
         }
     }
 
@@ -91,5 +167,22 @@ class Page
         } else {
             echo "<li><a href=\"#\" class=\"menu-link\">{$label}</a></li>";
         }
+    }
+
+    /**
+     * Renders the in-page tab navigation. Pair with .tab-content blocks
+     * that use matching data-tab values.
+     */
+    public function renderTabNav(array $tabs, ?string $activeTab = null)
+    {
+        echo '<div class="tab-nav">';
+        $first = true;
+        foreach ($tabs as $id => $label) {
+            $class = ($activeTab !== null ? $id === $activeTab : $first) ? 'tab-item active' : 'tab-item';
+            echo '<button type="button" class="' . $class . '" data-tab="' . htmlspecialchars((string) $id, ENT_QUOTES) . '">'
+                . htmlspecialchars((string) $label) . '</button>';
+            $first = false;
+        }
+        echo '</div>';
     }
 }

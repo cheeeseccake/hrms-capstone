@@ -14,4 +14,6 @@ include 'includes/header.php';
     </div>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php
+include __DIR__ . '/lib/includes/calendar_modal.php';
+include 'includes/footer.php';

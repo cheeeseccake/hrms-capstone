@@ -1,0 +1,179 @@
+/* Login Disclaimer Modal Styles */
+
+#loginDisclaimerModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background-color: rgba(23, 75, 145, 0.35);
+    z-index: 1050;
+    overflow: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#loginDisclaimerModal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    margin: 1.75rem auto;
+    transform: translateY(-50px);
+    transition: transform 0.3s ease;
+}
+
+#loginDisclaimerModal.show .login-disclaimer-modal-dialog {
+    transform: translateY(0);
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-content {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(23, 75, 145, 0.2);
+    border: 1px solid #174b91;
+    overflow: hidden;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #174b91;
+    border-top: 4px solid #174b91;
+    background-color: #ffffff;
+}
+
+#loginDisclaimerModal .login-disclaimer-eyebrow {
+    margin: 0 0 0.2rem;
+    color: #174b91;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #174b91;
+}
+
+#loginDisclaimerModal .login-disclaimer-close-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #174b91;
+    background: transparent;
+    border: 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+#loginDisclaimerModal .login-disclaimer-close-btn:hover {
+    color: #174b91;
+    background-color: #edf4fc;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-body {
+    padding: 1.5rem;
+    color: #174b91;
+    line-height: 1.6;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-body p {
+    margin: 0 0 1rem;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-body strong {
+    color: #174b91;
+}
+
+#loginDisclaimerModal .login-disclaimer-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #174b91;
+    background-color: #ffffff;
+    gap: 0.5rem;
+}
+
+#loginDisclaimerModal .login-disclaimer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+#loginDisclaimerModal .login-disclaimer-btn-primary {
+    color: #fff;
+    background-color: #174b91;
+    border-color: #174b91;
+}
+
+#loginDisclaimerModal .login-disclaimer-btn-primary:hover {
+    background-color: #103a75;
+    border-color: #103a75;
+}
+
+#loginDisclaimerModal .login-disclaimer-btn-primary:focus {
+    box-shadow: 0 0 0 3px rgba(23, 75, 145, 0.25);
+    outline: none;
+}
+
+#loginDisclaimerModal .login-disclaimer-btn-primary:active {
+    background-color: #103a75;
+    border-color: #103a75;
+}
+
+/* Focus trap for accessibility */
+#loginDisclaimerModal:focus-within {
+    outline: none;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    #loginDisclaimerModal {
+        padding: 0.5rem;
+    }
+
+    #loginDisclaimerModal .login-disclaimer-modal-dialog {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    #loginDisclaimerModal .login-disclaimer-modal-header,
+    #loginDisclaimerModal .login-disclaimer-modal-body,
+    #loginDisclaimerModal .login-disclaimer-modal-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

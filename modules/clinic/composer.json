@@ -1,0 +1,12 @@
+{
+    "name": "hrms/clinic-email",
+    "description": "Clinic module email communication dependencies (PHPMailer)",
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "dompdf/dompdf": "^3.1"
+    },
+    "config": {
+        "vendor-dir": "vendor",
+        "allow-plugins": false
+    }
+}

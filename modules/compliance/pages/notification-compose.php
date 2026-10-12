@@ -23,7 +23,22 @@ if (!in_array($mode, ['reply', 'forward', 'new'], true)) {
     exit;
 }
 
-$database = new Database();
+$dbFile = __DIR__ . '/../../../database/db.php';
+if (is_file($dbFile) && !class_exists('Database', false) && !class_exists('\\Database', false)) {
+    require_once $dbFile;
+}
+
+$databaseClass = class_exists('\\Database', false)
+    ? '\\Database'
+    : (class_exists('Database', false) ? 'Database' : null);
+
+if ($databaseClass === null) {
+    http_response_code(500);
+    echo 'Database class is unavailable.';
+    exit;
+}
+
+$database = new $databaseClass();
 $db = $database->getConnection();
 
 if (!($db instanceof PDO)) {

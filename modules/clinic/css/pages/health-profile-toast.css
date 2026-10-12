@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Employee Health — profile completion toast card
+
+   The "Profile Completion" card is relocated by js/pages/employee-health.js
+   from the side column into the fixed .eh-toast-stack, so it loses the
+   .employee-health .eh-col-side ancestor rules. This restores the same blue
+   card language (side column + clinic visit welcome palette) for the toast,
+   and styles its meter, metric, missing-info list and note.
+   ========================================================================== */
+
+.eh-toast-stack .eh-side-card--intro {
+  width: 100%;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #ffffff 0%, #f0f7ff 100%);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .06), 0 1px 3px rgba(30, 64, 175, .04);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, opacity .4s ease;
+}
+
+.eh-toast-stack .eh-side-card--intro:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, .12);
+}
+
+/* ── Card title (gradient accent bar like the side column) ── */
+.eh-toast-stack .eh-side-card--intro .eh-side-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 0 0 9px;
+  border-bottom: 1px solid #dbeafe;
+  color: #1e3a8a;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  line-height: 1.35;
+}
+.eh-toast-stack .eh-side-card--intro .eh-side-title::before {
+  width: 4px;
+  height: 20px;
+  flex: 0 0 4px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #3b82f6, #1e40af);
+  content: "";
+}
+
+/* ── Completion meter ── */
+.eh-toast-stack .eh-side-card--intro .eh-meter {
+  height: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background: #dbeafe;
+  overflow: hidden;
+}
+.eh-toast-stack .eh-side-card--intro .eh-meter-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3b82f6, #1e40af);
+  transition: width 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.18s;
+}
+
+/* ── Metric ── */
+.eh-toast-stack .eh-side-card--intro .eh-side-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: #1e40af;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.eh-toast-stack .eh-side-card--intro .eh-side-metric strong {
+  color: #1d4ed8;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+/* ── Labels ── */
+.eh-toast-stack .eh-side-card--intro .eh-side-label {
+  margin: 0 0 8px;
+  color: #1e40af;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  line-height: 1.3;
+}
+
+/* ── Missing information list ── */
+.eh-toast-stack .eh-side-card--intro .eh-side-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.eh-toast-stack .eh-side-card--intro .eh-side-list li {
+  position: relative;
+  padding: 8px 10px 8px 30px;
+  border: 1px solid rgba(147, 197, 253, .35);
+  border-radius: 9px;
+  background: rgba(219, 234, 254, .45);
+  color: #334155;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.eh-toast-stack .eh-side-card--intro .eh-side-list li::before {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  display: grid;
+  width: 13px;
+  height: 13px;
+  place-items: center;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  content: "\2713";
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ── Note ── */
+.eh-toast-stack .eh-side-card--intro .eh-side-note {
+  margin: 12px 0 0;
+  padding: 9px 11px;
+  border-left: 3px solid #60a5fa;
+  border-radius: 0 8px 8px 0;
+  background: #f8fbff;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .eh-toast-stack .eh-side-card--intro { padding: 13px; border-radius: 10px; }
+  .eh-toast-stack .eh-side-card--intro .eh-side-title { font-size: 13px; }
+  .eh-toast-stack .eh-side-card--intro .eh-side-metric strong { font-size: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eh-toast-stack .eh-side-card--intro,
+  .eh-toast-stack .eh-side-card--intro:hover { transition: none; }
+}

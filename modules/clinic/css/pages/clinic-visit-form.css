@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Employee Health — Clinic Visit Form
+   Styles for the "Record Clinic Visit" form, its visit-type panels,
+   conditional fields, wording suggestions, uploads, and the visit list
+   rendering on the Clinic Visits tab. Split out from employee-health.css.
+   ========================================================================== */
+
+/* ── Visit panel and form shell ───────────────────────────────────────── */
+.eh-visit-dialog { position: fixed; inset: 0; margin: auto; width: min(900px, calc(100vw - 28px)); max-width: 900px; max-height: min(92vh, 980px); padding: 0; overflow: hidden; border: 1px solid #d7e2ef; border-radius: 12px; color: #1b2430; background: #fff; box-shadow: 0 24px 80px rgba(12, 38, 72, .28); }
+.eh-visit-dialog::backdrop { background: rgba(13, 31, 52, .56); backdrop-filter: blur(2px); }
+.eh-visit-dialog[open] { display: flex; flex-direction: column; }
+.eh-visit-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e3eaf3; background: #f7faff; }
+.eh-visit-dialog-head h2 { margin: 0; color: #153e68; font-size: 19px; line-height: 1.25; }
+.eh-visit-eyebrow { margin: 0 0 4px; color: #60758c; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.eh-visit-close { display: inline-grid; width: 36px; height: 36px; place-items: center; border: 1px solid #d5e0ec; border-radius: 8px; color: #52657c; background: #fff; font-size: 24px; line-height: 1; cursor: pointer; }
+.eh-visit-close:hover { color: #174a83; border-color: #8fb5df; background: #edf5ff; }
+.eh-visit-form { padding: 18px 22px 20px; overflow: auto; }
+.eh-visit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 16px; }
+.eh-visit-grid .eh-form-field { min-width: 0; }
+.eh-visit-grid .eh-form-field--full { grid-column: 1 / -1; }
+.eh-visit-form .eh-form-field label { display: block; margin-bottom: 5px; color: #34485f; font-size: 11.5px; font-weight: 650; }
+.eh-visit-form .eh-form-field input, .eh-visit-form .eh-form-field select, .eh-visit-form .eh-form-field textarea { box-sizing: border-box; width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid #cbd8e6; border-radius: 6px; color: #26384d; background: #fff; font: inherit; font-size: 12px; }
+.eh-visit-form .eh-form-field textarea { min-height: 64px; resize: vertical; }
+.eh-visit-form .eh-form-field input:focus, .eh-visit-form .eh-form-field select:focus, .eh-visit-form .eh-form-field textarea:focus { outline: 3px solid rgba(37, 99, 235, .18); border-color: #4e8bc8; }
+.eh-visit-form [aria-invalid="true"] { border-color: #c53c45 !important; }
+.eh-visit-panel { min-width: 0; margin: 20px 0 0; padding: 16px; border: 1px solid #dce5ef; border-radius: 9px; }
+.eh-visit-panel[hidden], .eh-visit-conditional[hidden] { display: none !important; }
+.eh-visit-panel legend { padding: 0 7px; color: #174a83; font-size: 13px; font-weight: 700; }
+.eh-visit-subtitle { margin: 0; color: #294969; font-size: 12px; }
+.eh-visit-form .eh-form-hint { margin: 4px 0 0; color: #687c91; font-size: 10.5px; line-height: 1.45; }
+
+/* ── Wording suggestions ──────────────────────────────────────────────── */
+.eh-visit-suggestions { display: flex; flex-wrap: wrap; gap: 6px; max-height: 120px; margin-top: 7px; overflow: auto; }
+.eh-visit-suggestions[hidden], .eh-visit-suggestions button[hidden], .eh-visit-suggestion-empty[hidden] { display: none; }
+.eh-visit-suggestions button { padding: 5px 9px; border: 1px solid #c9d9ea; border-radius: 999px; color: #24527f; background: #f4f8fd; font: inherit; font-size: 10.5px; cursor: pointer; }
+.eh-visit-suggestions button:hover, .eh-visit-suggestions button:focus-visible { border-color: #6f9dcc; background: #e7f1fc; outline: 2px solid rgba(37,99,235,.18); outline-offset: 1px; }
+.eh-visit-suggestions button.is-active { border-color: #2563eb; color: #123f78; background: #dcecff; box-shadow: 0 0 0 2px rgba(37, 99, 235, .16); }
+.eh-visit-suggestion-empty { align-self: center; color: #687c91; font-size: 10.5px; }
+
+/* ── Validation feedback ──────────────────────────────────────────────── */
+.eh-visit-field-error { display: block; margin-top: 4px; color: #ad2935; font-size: 10.5px; }
+.eh-visit-field-error:empty { display: none; }
+.eh-visit-error { margin: 0 0 14px; padding: 10px 12px; border: 1px solid #f0c4c7; border-radius: 7px; color: #9b2029; background: #fff3f3; font-size: 12px; }
+.eh-visit-error[hidden] { display: none; }
+
+/* ── Certificate uploads (return-to-work) ────────────────────────────── */
+.eh-form-field--upload { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; border: 1px dashed #b7c9dc; border-radius: 8px; background: #f8fbff; }
+.eh-visit-form .eh-form-field--upload input[type="file"] { min-height: 0; padding: 6px; background: #fff; }
+.eh-visit-filename { max-width: 100%; overflow-wrap: anywhere; color: #344f6c; font-size: 11px; font-weight: 600; }
+.eh-visit-remove-file { padding: 5px 8px; font-size: 10.5px; }
+.eh-visit-policy-note { margin: 12px 0 0; color: #5d7085; font-size: 11px; line-height: 1.5; }
+
+/* ── Panel actions (save button) ──────────────────────────────────────── */
+.eh-visit-panel-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e4eaf1;
+}
+.eh-visit-panel-actions .eh-btn { min-height: 38px; }
+
+/* ── Inline placement inside the Clinic Visits tab ───────────────────── */
+.eh-visit-inline { margin-top: 16px; overflow: hidden; }
+.eh-visit-inline[hidden] { display: none !important; }
+.eh-visit-inline .eh-visit-form { padding: 18px; overflow: visible; }
+
+/* ── Recorded visit list ─────────────────────────────────────────────── */
+.eh-visit-table td { vertical-align: top; }
+.eh-visit-details { margin-top: 6px; }
+.eh-visit-details summary { color: #145aa0; cursor: pointer; font-size: 10.5px; font-weight: 650; }
+.eh-visit-details dl { display: grid; gap: 7px; margin: 8px 0 2px; padding: 10px; border-left: 2px solid #aac5e2; background: #f7faff; }
+.eh-visit-details dl > div { display: grid; grid-template-columns: minmax(120px, .7fr) minmax(0, 1.3fr); gap: 10px; }
+.eh-visit-details dt { color: #536981; font-size: 10.5px; font-weight: 650; }
+.eh-visit-details dd { margin: 0; color: #2d4055; font-size: 11px; overflow-wrap: anywhere; }
+.eh-visit-doc-links { margin: 0; padding-left: 16px; }
+.eh-visit-doc-links a { color: #145aa0; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.eh-visit-doc-links a:hover { color: #0e3c70; }
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .eh-visit-dialog { width: calc(100vw - 14px); max-height: 96vh; border-radius: 10px; }
+  .eh-visit-dialog-head { padding: 14px; }
+  .eh-visit-form { padding: 14px; }
+  .eh-visit-grid { grid-template-columns: minmax(0, 1fr); gap: 11px; }
+  .eh-visit-grid .eh-form-field--full { grid-column: auto; }
+  .eh-visit-panel { padding: 12px; }
+  .eh-visit-details dl > div { grid-template-columns: 1fr; gap: 2px; }
+}
