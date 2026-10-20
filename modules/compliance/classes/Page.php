@@ -45,6 +45,7 @@ class Page
         'exit-documents' => 'Exit Management',
 
         'audit-trail' => 'Audit & Reporting',
+        'audit-management' => 'Audit Management',
     ];
 
     private $sections = [
@@ -89,6 +90,7 @@ class Page
         ],
 
         'audits-reporting' => [
+            'audit-management',
             'audit-trail',
         ],
     ];
