@@ -10,6 +10,8 @@ $db = $database->getConnection();
 if (!$db instanceof PDO) throw new RuntimeException('Database connection unavailable.');
 if (empty($_SESSION['lc_audit_csrf'])) $_SESSION['lc_audit_csrf'] = bin2hex(random_bytes(32));
 $csrf = (string)$_SESSION['lc_audit_csrf'];
+$role = strtolower((string)($_SESSION['role_name'] ?? ''));
+if (!(str_contains($role, 'admin') || str_contains($role, 'legal') || str_contains($role, 'compliance') || str_contains($role, 'hr personnel'))) { http_response_code(403); echo 'You are not authorized to manage audits.'; return; }
 $actor = (string)($_SESSION['employee_name'] ?? $_SESSION['username'] ?? 'Compliance Personnel');
 $flash = ''; $error = '';
 function am_h($v): string { return htmlspecialchars((string)$v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
