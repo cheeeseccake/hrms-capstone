@@ -53,6 +53,7 @@ if (isset($audit) && $audit && $_SERVER['REQUEST_METHOD'] === 'POST' && empty($f
         $items = json_decode((string)$audit['checklist_json'], true);
         $items = is_array($items) ? $items : [];
         $answers = [];
+        $pendingEvidence = [];
         foreach ($items as $item) {
             if (!is_array($item) || empty($item['id'])) continue;
             $id = (string)$item['id'];
@@ -60,14 +61,32 @@ if (isset($audit) && $audit && $_SERVER['REQUEST_METHOD'] === 'POST' && empty($f
             if (!in_array($status, ['compliant','non_compliant','not_applicable','needs_verification'], true)) $status = '';
             $remarks = trim((string)($_POST['remarks'][$id] ?? ''));
             $answers[$id] = ['status'=>$status,'remarks'=>mb_substr($remarks,0,3000)];
+            if (isset($_FILES['evidence']['name'][$id]) && (string)$_FILES['evidence']['name'][$id] !== '') {
+                $file = ['name'=>$_FILES['evidence']['name'][$id], 'tmp_name'=>$_FILES['evidence']['tmp_name'][$id], 'error'=>$_FILES['evidence']['error'][$id], 'size'=>$_FILES['evidence']['size'][$id]];
+                if ($file['error'] !== UPLOAD_ERR_OK || $file['size'] > 8 * 1024 * 1024 || !is_uploaded_file($file['tmp_name'])) { $error = 'An evidence file could not be accepted. Use a PDF or image up to 8 MB.'; break; }
+                $finfo = new finfo(FILEINFO_MIME_TYPE); $mime = $finfo->file($file['tmp_name']);
+                $allowed = ['application/pdf'=>'pdf','image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp'];
+                if (!isset($allowed[$mime])) { $error = 'Evidence files must be PDF, JPG, PNG, or WEBP and no larger than 8 MB.'; break; }
+                $pendingEvidence[] = ['item_id'=>$id,'original'=>mb_substr(basename((string)$file['name']),0,255),'tmp'=>$file['tmp_name'],'mime'=>$mime,'size'=>(int)$file['size'],'ext'=>$allowed[$mime]];
+            }
         }
         $allAnswered = true;
         foreach ($answers as $answer) if ($answer['status'] === '') $allAnswered = false;
-        if ($action === 'submit' && !$allAnswered) {
+        if ($error !== '') {
+            // Reject this save if any uploaded evidence fails validation.
+        } elseif ($action === 'submit' && !$allAnswered) {
             $error = 'Please select a status for every checklist item before submitting.';
         } else {
             try {
                 $db->beginTransaction();
+                $evidenceDir = dirname(__DIR__, 3) . '/private_audit_evidence';
+                if (!is_dir($evidenceDir) && !mkdir($evidenceDir, 0750, true) && !is_dir($evidenceDir)) throw new RuntimeException('Evidence storage is unavailable.');
+                $evidenceStmt = $db->prepare('INSERT INTO lc_audit_evidence(audit_id,checklist_item_id,original_name,stored_name,mime_type,file_size,uploaded_by) VALUES(?,?,?,?,?,?,?)');
+                foreach ($pendingEvidence as $ev) {
+                    $stored = bin2hex(random_bytes(24)) . '.' . $ev['ext'];
+                    if (!move_uploaded_file($ev['tmp'], $evidenceDir . '/' . $stored)) throw new RuntimeException('Evidence upload failed. Please retry.');
+                    $evidenceStmt->execute([(int)$audit['audit_id'],$ev['item_id'],$ev['original'],$stored,$ev['mime'],$ev['size'],(string)$audit['responsible_name']]);
+                }
                 $next = $action === 'submit' ? 'submitted' : 'in_progress';
                 $up = $db->prepare('UPDATE lc_audits SET responses_json=?, status=?, last_saved_at=NOW(), submitted_at=IF(?=\'submitted\',NOW(),submitted_at) WHERE audit_id=? AND status <> \'submitted\'');
                 $json = json_encode($answers, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
@@ -105,9 +124,9 @@ $readOnly = isset($audit) && $audit && in_array($audit['status'], ['submitted','
 <section class="card"><span class="pill"><?=ac_out(ucwords(str_replace('_',' ',$audit['status'])))?></span><h1><?=ac_out($audit['title'])?></h1><p class="muted"><?=ac_out($audit['campus'])?> · <?=ac_out($audit['audit_type'])?></p><div class="fields"><div><span class="muted">Scheduled date</span><p><?=ac_out($audit['scheduled_date'])?></p></div><div><span class="muted">Submission deadline</span><p><?=ac_out($audit['due_date'])?></p></div></div><?php if (!empty($audit['description'])): ?><p><?=nl2br(ac_out($audit['description']))?></p><?php endif; ?><p class="muted">Complete each item based on what you have verified. “Needs Verification” is not the same as compliant.</p></section>
 <?php if ($notice): ?><div class="notice"><?=ac_out($notice)?></div><?php endif; ?><?php if ($error): ?><div class="error"><?=ac_out($error)?></div><?php endif; ?>
 <?php if ($readOnly): ?><section class="card"><h2>Submission received</h2><p>This checklist is read-only now. Contact the audit coordinator if you need to correct a response.</p></section>
-<?php else: ?><form method="post" class="card"><input type="hidden" name="token" value="<?=ac_out($token)?>"><input type="hidden" name="csrf" value="<?=ac_out((string)$_SESSION['audit_public_csrf'])?>">
+<?php else: ?><form method="post" enctype="multipart/form-data" class="card"><input type="hidden" name="token" value="<?=ac_out($token)?>"><input type="hidden" name="csrf" value="<?=ac_out((string)$_SESSION['audit_public_csrf'])?>">
 <?php foreach ($items as $i=>$item): if (!is_array($item)) continue; $id=(string)($item['id']??$i); $answer=$responses[$id]??[]; ?>
-<div class="item"><h3><?=($i+1)?>. <?=ac_out((string)($item['text']??'Checklist item'))?> <?php if (!empty($item['required'])): ?><span class="muted">(Required)</span><?php endif; ?></h3><div class="fields"><div><label for="s<?=ac_out($id)?>">Inspection status</label><select id="s<?=ac_out($id)?>" name="status[<?=ac_out($id)?>]" required><option value="">Select status</option><?php foreach (['compliant'=>'Compliant','non_compliant'=>'Non-Compliant','not_applicable'=>'Not Applicable','needs_verification'=>'Needs Verification'] as $v=>$label): ?><option value="<?=ac_out($v)?>" <?=($answer['status']??'')===$v?'selected':''?>><?=ac_out($label)?></option><?php endforeach; ?></select></div><div><label for="r<?=ac_out($id)?>">Remarks / evidence reference</label><textarea id="r<?=ac_out($id)?>" name="remarks[<?=ac_out($id)?>]" maxlength="3000" placeholder="Describe what you checked or what needs attention..."><?=ac_out((string)($answer['remarks']??''))?></textarea></div></div></div>
+<div class="item"><h3><?=($i+1)?>. <?=ac_out((string)($item['text']??'Checklist item'))?> <?php if (!empty($item['required'])): ?><span class="muted">(Required)</span><?php endif; ?></h3><div class="fields"><div><label for="s<?=ac_out($id)?>">Inspection status</label><select id="s<?=ac_out($id)?>" name="status[<?=ac_out($id)?>]" required><option value="">Select status</option><?php foreach (['compliant'=>'Compliant','non_compliant'=>'Non-Compliant','not_applicable'=>'Not Applicable','needs_verification'=>'Needs Verification'] as $v=>$label): ?><option value="<?=ac_out($v)?>" <?=($answer['status']??'')===$v?'selected':''?>><?=ac_out($label)?></option><?php endforeach; ?></select></div><div><label for="r<?=ac_out($id)?>">Remarks / evidence notes</label><textarea id="r<?=ac_out($id)?>" name="remarks[<?=ac_out($id)?>]" maxlength="3000" placeholder="Describe what you checked or what needs attention..."><?=ac_out((string)($answer['remarks']??''))?></textarea><label for="e<?=ac_out($id)?>" style="margin-top:9px">Attach evidence (PDF/JPG/PNG/WEBP, max 8 MB)</label><input id="e<?=ac_out($id)?>" type="file" name="evidence[<?=ac_out($id)?>]" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"></div></div></div>
 <?php endforeach; ?>
-<div class="actions"><button class="btn secondary" type="submit" name="action" value="save">Save Progress</button><button class="btn" type="submit" name="action" value="submit" onclick="return confirm('Submit this checklist for Compliance review? You cannot edit it afterward.')">Submit Checklist</button></div><p class="muted">Save progress to return later using the same link. Attachments, if required, should be provided through the coordinator's approved secure evidence channel.</p></form><?php endif; ?>
+<div class="actions"><button class="btn secondary" type="submit" name="action" value="save">Save Progress</button><button class="btn" type="submit" name="action" value="submit" onclick="return confirm('Submit this checklist for Compliance review? You cannot edit it afterward.')">Submit Checklist</button></div><p class="muted">Save progress to return later using the same link. Uploaded evidence is stored privately and can only be reviewed by authorized system personnel.</p></form><?php endif; ?>
 <?php endif; ?></main></body></html>
