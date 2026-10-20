@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../auth/session.php';
 require_once __DIR__ . '/../../database/db.php';
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 if (empty($_SESSION['employee_id'])) { http_response_code(403); exit('Forbidden'); }
+$role = strtolower((string)($_SESSION['role_name'] ?? ''));
+if (!(str_contains($role, 'admin') || str_contains($role, 'legal') || str_contains($role, 'compliance') || str_contains($role, 'hr personnel'))) { http_response_code(403); exit('Forbidden'); }
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id || $id < 1) { http_response_code(404); exit('Evidence not found'); }
 $database = new Database();
