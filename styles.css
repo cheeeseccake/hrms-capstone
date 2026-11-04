@@ -1,269 +1,3004 @@
-@import url('https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&display=swap');
+/* =====================================================
+   BCP HRMS LOGIN
+   Professional institutional interface
+   ===================================================== */
+
+:root {
+    --navy: #17365c;
+    --navy-deep: #102944;
+    --blue: #285b91;
+    --blue-hover: #204a78;
+    --text: #202b3c;
+    --muted: #718096;
+    --border: #dce3eb;
+    --page: #f3f6fa;
+    --white: #ffffff;
+    --danger: #b42318;
+}
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-image: url('assets/bg.jpg');
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+html {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
-h1 {
-    text-align: center;
-    font-size: 2rem;
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text);
+    background: var(--page);
+    font-family: "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+/* =====================================================
+   MAIN LAYOUT
+   ===================================================== */
+
+.login-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(400px, 0.8fr);
+    min-height: 100vh;
+    background: var(--white);
+}
+
+/* =====================================================
+   LEFT BRAND PANEL
+   ===================================================== */
+
+.brand-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 48px clamp(32px, 5.5vw, 88px) 32px;
+    color: var(--white);
+    background-color: var(--navy);
+    background-image: linear-gradient(180deg, rgba(12, 35, 61, 0.62), rgba(12, 35, 61, 0.78));
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    isolation: isolate;
+}
+
+.brand-panel::before {
+    position: absolute;
+    z-index: -1;
+    top: -250px;
+    left: -230px;
+    width: 650px;
+    height: 650px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 50%;
+    content: "";
+}
+
+.brand-panel::after {
+    position: absolute;
+    z-index: -1;
+    right: -250px;
+    bottom: -320px;
+    width: 720px;
+    height: 720px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    content: "";
+    box-shadow:
+        0 0 0 70px rgba(255, 255, 255, 0.018),
+        0 0 0 140px rgba(255, 255, 255, 0.015);
+}
+
+/* BCP HRMS left-side brand identity */
+.brand-identity {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    color: #ffffff;
+    text-decoration: none;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: none;
+}
+
+.brand-identity img {
+    display: block;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+    max-width: 52px;
+    max-height: 52px;
+    object-fit: contain;
+    object-position: center;
+    background-color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    padding: 2px;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    filter: none;
+}
+
+.brand-identity .brand-school-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    margin: 0;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+}
+
+.brand-identity .brand-school-name > span {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 1.2px;
+}
+
+.brand-identity:hover,
+.brand-identity:focus,
+.brand-identity:active {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.brand-identity:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 5px;
+    border-radius: 4px;
+}
+
+/* Tablet sizing */
+@media (max-width: 1050px) {
+    .brand-identity {
+        gap: 12px;
+    }
+
+    .brand-identity img {
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 48px;
+        max-height: 48px;
+    }
+
+    .brand-identity .brand-school-name {
+        font-size: 14px;
+    }
+
+    .brand-identity .brand-school-name > span {
+        font-size: 10px;
+    }
+}
+
+
+
+
+.brand-message {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 510px;
+    margin: 60px 0 75px;
+}
+
+.brand-eyebrow {
+    margin: 0 0 22px;
+    color: #b9cce1;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 2.3px;
+}
+
+.brand-message h2 {
+    margin: 0;
+    color: var(--white);
+    font-size: clamp(38px, 4.1vw, 62px);
+    font-weight: 600;
+    line-height: 1.13;
+    letter-spacing: -1.8px;
+}
+
+.brand-divider {
+    width: 48px;
+    height: 3px;
+    background: #91b3d8;
+    margin: 20px 0;
+}
+
+.brand-description {
+    max-width: 400px;
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.brand-supporting-text {
+    max-width: 380px;
+    margin: 0;
+    color: #c3d0df;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.brand-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.17);
+    color: #c3d0df;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   RIGHT LOGIN PANEL
+   ===================================================== */
+
+.login-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 56px clamp(32px, 5.2vw, 82px);
+    background: #f8fafc;
+}
+
+.login-contents {
+    width: 100%;
+    max-width: 410px;
+    margin: auto;
 }
 
 .school-logo {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 27px;
 }
 
 .school-logo img {
-    width: 89px;
-    height: 89px;
+    display: block;
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
 }
 
-.login-container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+.login-heading {
+    margin-bottom: 34px;
+    text-align: center;
+}
+
+.login-overline {
+    margin: 0 0 11px;
+    color: var(--blue);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.login-heading h1 {
+    margin: 0;
+    color: var(--navy-deep);
+    font-size: 30px;
+    font-weight: 650;
+    line-height: 1.3;
+    letter-spacing: -0.7px;
+}
+
+.login-subtitle {
+    max-width: 330px;
+    margin: 12px auto 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =====================================================
+   FORM AND ERROR MESSAGE
+   ===================================================== */
+
+#loginForm {
     width: 100%;
-    max-width: 400px;
-    min-height: 555px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-weight: bold;
+    margin: 0;
+}
+
+.error-message {
+    display: none;
+    margin: 0 0 22px;
+    padding: 12px 14px;
+    border: 1px solid #f0c6c3;
+    border-radius: 5px;
+    background: #fff5f4;
+    color: var(--danger);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.error-message:not(:empty) {
+    display: block;
 }
 
 .input-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
+    margin: 0 0 23px;
 }
 
 .input-group label {
-    margin-bottom: 8px;
-    font-size: 14px;
+    display: block;
+    margin: 0 0 9px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
 }
 
-button {
+.input-group input {
+    display: block;
     width: 100%;
-    max-width: 340px;
-    padding: 12px;
-    background: linear-gradient(to right, rgba(37, 0, 150, 1), rgba(15, 0, 59, 1));
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0 auto;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 0, 150, 0.4);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-.input-group input,
-.input-group select {
-    width: 100%;
-    max-width: 340px;
-    height: 47px;
-    padding: 0 15px;
-    border-radius: 15px;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.input-group input:focus,
-.input-group select:focus {
+    height: 49px;
+    padding: 0 14px;
+    border: 1px solid #d5dee9;
+    border-radius: 5px;
     outline: none;
-    border-color: rgba(37, 0, 150, 1);
-    box-shadow: 0 0 0 3px rgba(37, 0, 150, 0.1);
+    background: var(--white);
+    color: var(--text);
+    font-size: 14px;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease;
 }
 
-option {
-    font-size: 16px;
-    font-weight: bold;
+.input-group input::placeholder {
+    color: #98a2b3;
+    opacity: 1;
 }
+
+.input-group input:hover {
+    border-color: #aab9ca;
+}
+
+.input-group input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(40, 91, 145, 0.12);
+}
+
+.input-group input:focus-visible {
+    outline: none;
+}
+
+/* =====================================================
+   PASSWORD RECOVERY
+   ===================================================== */
 
 .forgot {
-    text-align: center;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    color: rgba(92, 92, 92, 1);
-    transition: color 0.3s ease;
+    display: flex;
+    justify-content: flex-end;
+    margin: -3px 0 26px;
 }
 
-.forgot:hover {
-    color: rgba(37, 0, 150, 1);
+.forgot a {
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+    text-align: right;
+    text-decoration: none;
+}
+
+.forgot a:hover {
+    color: var(--blue-hover);
     text-decoration: underline;
 }
 
-/* Tablet Screens (768px and below) */
-@media (max-width: 768px) {
+.forgot a:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 4px;
+}
+
+/* =====================================================
+   SIGN-IN BUTTON
+   ===================================================== */
+
+#loginBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    min-height: 49px;
+    gap: 12px;
+    padding: 12px 18px;
+    border: 1px solid var(--navy);
+    border-radius: 5px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+#loginBtn:hover {
+    border-color: var(--blue-hover);
+    background: var(--blue-hover);
+}
+
+#loginBtn:focus-visible {
+    outline: 3px solid rgba(40, 91, 145, 0.25);
+    outline-offset: 3px;
+}
+
+#loginBtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.login-button-arrow {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* =====================================================
+   FOOTER AND AUTHORIZATION NOTE
+   ===================================================== */
+
+.login-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    margin-top: 31px;
+    color: #7b8798;
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.security-indicator {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5c8a71;
+}
+
+.mobile-footer {
+    display: none;
+}
+
+/* =====================================================
+   RESPONSIVE TABLET
+   ===================================================== */
+
+@media (max-width: 1050px) {
     .login-container {
-        padding: 30px;
-        max-width: 380px;
-        min-height: 500px;
+        grid-template-columns: minmax(0, 0.9fr) minmax(400px, 1fr);
     }
-    
-    .school-logo img {
-        width: 75px;
-        height: 75px;
+
+    .brand-panel {
+        padding-right: 34px;
+        padding-left: 34px;
     }
-    
-    button {
-        font-size: 20px;
-        padding: 10px;
+
+    .brand-identity {
+        gap: 12px;
     }
-    
-    .input-group input,
-    .input-group select {
-        height: 45px;
-        max-width: 320px;
+
+    .brand-identity img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .brand-school-name {
+        font-size: 11px;
+        letter-spacing: 0.8px;
+    }
+
+    .brand-message h2 {
+        font-size: clamp(34px, 4vw, 46px);
+    }
+
+    .login-panel {
+        padding-right: 35px;
+        padding-left: 35px;
     }
 }
 
-/* Mobile Phones (480px and below) */
-@media (max-width: 480px) {
-    body {
-        padding: 0.5rem;
-    }
-    
+/* =====================================================
+   RESPONSIVE MOBILE
+   ===================================================== */
+
+@media (max-width: 760px) {
     .login-container {
-        padding: 25px 20px;
-        max-width: 100%;
-        min-height: auto;
-        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #f4f7fb;
     }
-    
+
+    .brand-panel {
+        display: none;
+    }
+
+    .login-panel {
+        flex: 1;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 35px 20px 24px;
+        background: #f4f7fb;
+    }
+
+    .login-contents {
+        width: 100%;
+        max-width: 420px;
+        margin: auto;
+        padding: 35px 28px;
+        border: 1px solid #e6ebf2;
+        border-radius: 7px;
+        background: var(--white);
+        box-shadow: 0 5px 22px rgba(23, 54, 92, 0.045);
+    }
+
     .school-logo {
-        margin-bottom: 1rem;
+        margin-bottom: 22px;
     }
-    
+
     .school-logo img {
         width: 65px;
         height: 65px;
     }
-    
-    .input-group {
-        margin-bottom: 15px;
+
+    .login-heading {
+        margin-bottom: 29px;
     }
-    
-    .input-group label {
-        font-size: 13px;
+
+    .login-heading h1 {
+        font-size: 27px;
     }
-    
-    .input-group input,
-    .input-group select {
-        height: 42px;
-        max-width: 100%;
-        font-size: 14px;
-        padding: 0 12px;
-    }
-    
-    button {
-        font-size: 18px;
-        padding: 10px;
-        max-width: 100%;
-    }
-    
-    .forgot {
-        font-size: 14px;
-        margin-bottom: 15px;
+
+    .mobile-footer {
+        display: block;
+        width: 100%;
+        max-width: 420px;
+        margin: 20px auto 0;
+        color: #7b8798;
+        font-size: 10px;
+        line-height: 1.7;
+        text-align: center;
     }
 }
 
-/* Extra Small Devices (360px and below) */
-@media (max-width: 360px) {
+/* =====================================================
+   SMALL MOBILE
+   ===================================================== */
+
+@media (max-width: 380px) {
+    .login-panel {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .login-contents {
+        padding: 30px 21px;
+    }
+
+    .login-heading h1 {
+        font-size: 25px;
+    }
+
+    .forgot a {
+        font-size: 11px;
+    }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Left branding-panel logo */
+.brand-panel .brand-identity img {
+    display: block;
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    max-width: 56px;
+    max-height: 56px;
+    object-fit: contain;
+    object-position: center;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* BCP AUTH DESIGN REFINEMENT - 2026 */
+:root {
+    --navy: #17365c;
+    --navy-deep: #102944;
+    --blue: #285b91;
+    --blue-hover: #204a78;
+    --text: #202b3c;
+    --muted: #66758a;
+    --border: #dce3eb;
+    --page: #f3f6fa;
+}
+
+.login-container {
+    grid-template-columns: minmax(0, 3fr) minmax(380px, 2fr);
+    background: #f7f9fc;
+}
+
+.login-panel {
+    background: #f7f9fc;
+}
+
+.login-contents {
+    max-width: 400px;
+}
+
+.login-heading h1 {
+    letter-spacing: -0.55px;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    line-height: 1.7;
+}
+
+.input-group {
+    margin-bottom: 21px;
+}
+
+.input-group input {
+    height: 50px;
+    border-radius: 4px;
+    border-color: #d5dee8;
+    box-shadow: none;
+}
+
+#loginBtn {
+    min-height: 50px;
+    border-radius: 4px;
+    font-weight: 650;
+}
+
+.brand-panel {
+    background-color: #17365c;
+}
+
+.brand-message h2 {
+    letter-spacing: -1.2px;
+}
+
+.brand-divider {
+    width: 42px;
+    height: 2px;
+    margin: 20px 0;
+}
+
+@media (min-width: 761px) {
     .login-container {
-        padding: 20px 15px;
-    }
-    
-    .school-logo img {
-        width: 55px;
-        height: 55px;
-    }
-    
-    button {
-        font-size: 16px;
-        padding: 8px;
-    }
-    
-    .input-group input,
-    .input-group select {
-        height: 40px;
-        font-size: 13px;
+        grid-template-columns: 60% 40%;
     }
 }
 
-/* Landscape Mode for Mobile */
-@media (max-height: 600px) and (orientation: landscape) {
-    body {
+@media (max-width: 760px) {
+    .login-contents {
+        border-radius: 5px;
+        box-shadow: 0 8px 28px rgba(16, 41, 68, 0.055);
+    }
+}
+
+@media (max-width: 400px) {
+    .login-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Final fix: preserve transparent BCP logo in the left brand panel */
+.brand-panel .brand-identity img {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    filter: none !important;
+}
+
+/* White background limited to the logo image */
+.brand-panel .brand-identity img,
+.forgot-page > .brand-panel .brand-identity img {
+    display: block;
+    background-color: #ffffff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 4px !important;
+    box-shadow: none !important;
+    object-fit: contain;
+}
+
+/* Final brand-panel logo styling */
+.brand-panel .brand-identity img {
+    display: block !important;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    max-width: 56px !important;
+    max-height: 56px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: #ffffff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 4px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Enlarged BCP brand logo: transparent background, no white container */
+.brand-panel .brand-identity img {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    flex-shrink: 0;
+}
+
+/* Final BCP logo sizing and transparency */
+.brand-panel .brand-identity img {
+    width: 110px !important;
+    height: 110px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    flex-shrink: 0;
+}
+
+/* Shared login layout: 70% branding panel, 30% form panel */
+@media (min-width: 901px) {
+    .login-container {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    }
+}
+
+/* Login page: 70% branding panel, 30% login form */
+@media (min-width: 901px) {
+    body > .login-container,
+    .login-container {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    }
+}
+
+/* Final login layout: 70% left brand panel, 30% right form */
+@media (min-width: 761px) {
+    main.login-container {
+        display: grid !important;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+        width: 100% !important;
+    }
+
+    main.login-container > .brand-panel,
+    main.login-container > .login-panel {
+        min-width: 0 !important;
+        width: auto !important;
+    }
+}
+
+/* Expand branding content across the full left panel */
+@media (min-width: 761px) {
+    .brand-panel {
+        box-sizing: border-box;
+        padding-left: clamp(28px, 3.5vw, 64px) !important;
+        padding-right: clamp(28px, 3.5vw, 64px) !important;
+    }
+
+    .brand-panel .brand-identity {
+        display: flex;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .brand-panel .brand-identity img {
+        flex: 0 0 110px;
+        width: 110px !important;
+        height: 110px !important;
+        object-fit: contain !important;
+    }
+
+    .brand-panel .brand-school-name {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
+        font-size: clamp(15px, 1.2vw, 20px);
+        overflow-wrap: anywhere;
+    }
+
+    .brand-panel .brand-message {
+        width: 100%;
+        max-width: none !important;
+        box-sizing: border-box;
+    }
+
+    .brand-panel .brand-eyebrow,
+    .brand-panel .brand-description,
+    .brand-panel .brand-supporting-text {
+        width: 100%;
+        max-width: none !important;
+        box-sizing: border-box;
+    }
+
+    .brand-panel .brand-message h2 {
+        width: 100%;
+        max-width: none !important;
+        font-size: clamp(48px, 5.4vw, 88px);
+        line-height: 1.04;
+        letter-spacing: -0.045em;
+        overflow-wrap: normal;
+    }
+
+    .brand-panel .brand-divider {
+        width: min(100%, 120px);
+    }
+
+    .brand-panel .brand-footer {
+        display: flex;
+        width: 100%;
+        max-width: none !important;
+        box-sizing: border-box;
+        justify-content: space-between;
         align-items: flex-start;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        gap: 16px 24px;
     }
-    
-    .login-container {
-        min-height: auto;
-        padding: 20px;
+
+    .brand-panel .brand-footer span {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        overflow-wrap: anywhere;
     }
-    
-    .school-logo {
-        margin-bottom: 0.5rem;
+
+    .brand-panel .brand-footer span:last-child {
+        text-align: right;
     }
-    
-    .school-logo img {
-        width: 50px;
-        height: 50px;
+}
+/* Staggered slide-in animation for the branding headline */
+.brand-message h2 .word-slide {
+    display: inline-block;
+    animation: brandWordSlideIn 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.brand-message h2 .word-slide:nth-of-type(1) {
+    animation-delay: 0ms;
+}
+
+.brand-message h2 .word-slide:nth-of-type(2) {
+    animation-delay: 400ms;
+}
+
+.brand-message h2 .word-slide:nth-of-type(3) {
+    animation-delay: 800ms;
+}
+
+@keyframes brandWordSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
     }
-    
-    .input-group {
-        margin-bottom: 12px;
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
-.error-message {
-            display: none;
-            background-color: #fdecea;
-            color: #b91c1c;
-            border: 1px solid #f87171;
-            border-radius: 6px;
-            padding: 10px 14px;
-            margin-bottom: 14px;
-            font-size: 0.875rem;
-        }
+@media (prefers-reduced-motion: reduce) {
+    .brand-message h2 .word-slide {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
 
-        .error-message.show {
-            display: block;
-        }
+/* Smooth fade-in for the brand description */
+.brand-panel .brand-description {
+    opacity: 0;
+    animation: brandDescriptionFadeFixed 4s ease-in-out 0.5s both;
+}
 
-        .error-message.locked {
-            background-color: #fff3cd;
-            color: #92400e;
-            border-color: #fbbf24;
-        }
+@keyframes brandDescriptionFadeFixed {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-panel .brand-description {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* Larger BCP school identity on login and forgot-password pages */
+.brand-panel .brand-identity {
+    width: 100%;
+    max-width: none;
+    gap: 22px;
+}
+
+.brand-panel .brand-school-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: clamp(19px, 1.65vw, 28px);
+    font-weight: 750;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+}
+
+.brand-panel .brand-school-name > span {
+    font-size: clamp(13px, 1.05vw, 17px);
+    line-height: 1.45;
+    letter-spacing: 1.5px;
+}
+
+@media (max-width: 760px) {
+    .brand-panel .brand-identity {
+        gap: 16px;
+    }
+
+    .brand-panel .brand-school-name {
+        font-size: clamp(17px, 4vw, 23px);
+    }
+
+    .brand-panel .brand-school-name > span {
+        font-size: clamp(11px, 2.8vw, 14px);
+    }
+}
+
+/* Extra-large BCP identity for login and forgot-password */
+.brand-panel .brand-identity {
+    gap: 26px;
+}
+
+.brand-panel .brand-identity img {
+    flex: 0 0 130px !important;
+    width: 130px !important;
+    height: 130px !important;
+    min-width: 130px !important;
+    min-height: 130px !important;
+    max-width: 130px !important;
+    max-height: 130px !important;
+}
+
+.brand-panel .brand-school-name {
+    font-size: clamp(23px, 2vw, 34px) !important;
+    line-height: 1.25;
+    letter-spacing: 1.2px;
+}
+
+.brand-panel .brand-school-name > span {
+    font-size: clamp(15px, 1.25vw, 21px) !important;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+}
+
+@media (max-width: 760px) {
+    .brand-panel .brand-identity img {
+        flex-basis: 82px !important;
+        width: 82px !important;
+        height: 82px !important;
+        min-width: 82px !important;
+        min-height: 82px !important;
+        max-width: 82px !important;
+        max-height: 82px !important;
+    }
+
+    .brand-panel .brand-identity {
+        gap: 16px;
+    }
+
+    .brand-panel .brand-school-name {
+        font-size: clamp(18px, 4.5vw, 25px) !important;
+    }
+
+    .brand-panel .brand-school-name > span {
+        font-size: clamp(12px, 3vw, 16px) !important;
+    }
+}
+
+/* Full-span People / Process / Progress headline */
+.brand-panel .brand-message h2 {
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+}
+
+.brand-panel .brand-message h2 .word-slide {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+/* Full-span People / Process / Progress headline */
+.brand-panel .brand-message h2 {
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+}
+
+.brand-panel .brand-message h2 .word-slide {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+/* Stretch each branding headline word across the available panel width */
+.brand-panel .brand-message h2 {
+    width: 100% !important;
+}
+
+.brand-panel .brand-message h2 .word-slide {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    white-space: nowrap;
+    text-align: justify;
+    text-align-last: justify;
+}
+
+/* Stronger full-width headline treatment */
+.brand-panel .brand-message h2 {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.brand-panel .brand-message h2 .word-slide {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    white-space: nowrap;
+    text-align: left;
+    letter-spacing: clamp(5px, 1.2vw, 18px) !important;
+    transform-origin: left center;
+}
+
+/* Preserve the headline animation's final position */
+@media (prefers-reduced-motion: reduce) {
+    .brand-panel .brand-message h2 .word-slide {
+        transform: none !important;
+    }
+}
+
+/* Fix spacing in People. Process. Progress. */
+.brand-panel .brand-message h2 {
+    letter-spacing: normal !important;
+    line-height: 1 !important;
+}
+
+.brand-panel .brand-message h2 .word-slide {
+    letter-spacing: normal !important;
+    line-height: 1 !important;
+    word-spacing: normal !important;
+}
+
+/* FINAL OVERRIDE: remove extra letter and line spacing */
+html body .brand-panel .brand-message h2,
+html body .brand-panel .brand-message h2 .word-slide {
+    letter-spacing: 0 !important;
+    word-spacing: 0 !important;
+    line-height: 1 !important;
+    text-indent: 0 !important;
+}
+
+html body .brand-panel .brand-message h2 .word-slide {
+    transform: none !important;
+}
+
+/* Forgot-password page: restore balanced, normal sizing */
+.forgot-page .brand-panel {
+    padding: 38px clamp(28px, 4vw, 64px);
+}
+
+.forgot-page .brand-panel .brand-identity {
+    gap: 14px;
+}
+
+.forgot-page .brand-panel .brand-identity img {
+    flex: 0 0 64px !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+    min-height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px !important;
+}
+
+.forgot-page .brand-panel .brand-school-name {
+    font-size: 17px !important;
+    line-height: 1.35;
+    letter-spacing: 0.6px;
+}
+
+.forgot-page .brand-panel .brand-school-name > span {
+    font-size: 11px !important;
+    letter-spacing: 0.8px;
+}
+
+.forgot-page .brand-panel .brand-message {
+    width: 100%;
+    max-width: 440px !important;
+    margin: 42px 0;
+}
+
+.forgot-page .brand-panel .brand-eyebrow {
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+}
+
+.forgot-page .brand-panel .brand-message h2 {
+    width: 100% !important;
+    font-size: clamp(38px, 4vw, 58px) !important;
+    line-height: 1.12;
+    letter-spacing: normal !important;
+}
+
+.forgot-page .brand-panel .brand-message h2 .word-slide {
+    display: inline-block !important;
+    width: auto !important;
+    letter-spacing: normal !important;
+    text-align: left;
+    text-align-last: auto;
+    white-space: normal;
+}
+
+.forgot-page .brand-panel .brand-divider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.forgot-page .brand-panel .brand-description {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.forgot-page .brand-panel .brand-supporting-text {
+    max-width: 440px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.forgot-page .brand-panel .brand-footer {
+    gap: 10px 18px;
+    font-size: 11px;
+}
+
+.forgot-page .forgot-card {
+    width: min(100% - 32px, 440px);
+    max-width: 440px;
+    box-sizing: border-box;
+}
+
+.forgot-page .forgot-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.forgot-page .forgot-header h1 {
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.forgot-page .forgot-body {
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+.forgot-page .request-header-content h2 {
+    font-size: 24px;
+    line-height: 1.3;
+}
+
+.forgot-page .forgot-description {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.forgot-page .field label {
+    font-size: 13px;
+}
+
+.forgot-page .field input {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.forgot-page .forgot-button {
+    min-height: 44px;
+    padding: 11px 16px;
+    font-size: 14px;
+}
+
+.forgot-page .back-login {
+    font-size: 13px;
+}
+
+@media (max-width: 760px) {
+    .forgot-page .brand-panel {
+        padding: 28px 24px;
+    }
+
+    .forgot-page .brand-panel .brand-message {
+        margin: 28px 0;
+    }
+
+    .forgot-page .brand-panel .brand-message h2 {
+        font-size: clamp(34px, 8vw, 46px) !important;
+    }
+
+    .forgot-page .forgot-body {
+        padding: 22px;
+    }
+}
+
+/* Login page: restore balanced, normal sizing */
+.login-container .brand-panel {
+    box-sizing: border-box;
+    padding: 38px clamp(28px, 4vw, 64px);
+}
+
+.login-container .brand-panel .brand-identity {
+    width: 100%;
+    max-width: none;
+    gap: 14px;
+}
+
+.login-container .brand-panel .brand-identity img {
+    flex: 0 0 64px !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+    min-height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px !important;
+}
+
+.login-container .brand-panel .brand-school-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 17px !important;
+    line-height: 1.35;
+    letter-spacing: 0.6px;
+}
+
+.login-container .brand-panel .brand-school-name > span {
+    font-size: 11px !important;
+    letter-spacing: 0.8px;
+}
+
+.login-container .brand-panel .brand-message {
+    width: 100%;
+    max-width: 440px !important;
+    margin: 42px 0;
+}
+
+.login-container .brand-panel .brand-eyebrow {
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+}
+
+.login-container .brand-panel .brand-message h2 {
+    width: 100% !important;
+    max-width: none !important;
+    font-size: clamp(38px, 4vw, 58px) !important;
+    line-height: 1.12;
+    letter-spacing: normal !important;
+}
+
+.login-container .brand-panel .brand-message h2 .word-slide {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: 100%;
+    letter-spacing: normal !important;
+    text-align: left;
+    white-space: normal;
+}
+
+.login-container .brand-panel .brand-description {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.login-container .brand-panel .brand-supporting-text {
+    max-width: 440px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.login-container .brand-panel .brand-footer {
+    gap: 10px 18px;
+    font-size: 11px;
+}
+
+.login-container .login-panel {
+    box-sizing: border-box;
+}
+
+.login-container .login-panel h1 {
+    font-size: 24px;
+    line-height: 1.3;
+}
+
+.login-container .login-panel label {
+    font-size: 13px;
+}
+
+.login-container .login-panel input {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.login-container .login-panel button {
+    min-height: 44px;
+    padding: 11px 16px;
+    font-size: 14px;
+}
+
+@media (max-width: 760px) {
+    .login-container .brand-panel {
+        padding: 28px 24px;
+    }
+
+    .login-container .brand-panel .brand-message {
+        margin: 28px 0;
+    }
+
+    .login-container .brand-panel .brand-message h2 {
+        font-size: clamp(34px, 8vw, 46px) !important;
+    }
+}
+
+/* Login desktop: balanced 70/30 layout with larger branding */
+@media (min-width: 901px) {
+    .login-container {
+        grid-template-columns: minmax(0, 7fr) minmax(360px, 3fr) !important;
+        min-height: 100vh;
+    }
+
+    .login-container .brand-panel {
+        box-sizing: border-box;
+        min-width: 0;
+        padding: clamp(36px, 4vw, 64px) clamp(36px, 5vw, 84px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .login-container .brand-panel .brand-identity {
+        width: 100%;
+        max-width: 680px;
+        gap: 20px;
+        flex-shrink: 0;
+    }
+
+    .login-container .brand-panel .brand-identity img {
+        flex: 0 0 82px !important;
+        width: 82px !important;
+        height: 82px !important;
+        min-width: 82px !important;
+        min-height: 82px !important;
+        max-width: 82px !important;
+        max-height: 82px !important;
+    }
+
+    .login-container .brand-panel .brand-school-name {
+        min-width: 0;
+        font-size: clamp(19px, 1.65vw, 25px) !important;
+        line-height: 1.3;
+        letter-spacing: 0.7px;
+        overflow-wrap: normal;
+    }
+
+    .login-container .brand-panel .brand-school-name > span {
+        font-size: clamp(12px, 1vw, 15px) !important;
+        letter-spacing: 1px;
+    }
+
+    .login-container .brand-panel .brand-message {
+        width: 100%;
+        max-width: 650px !important;
+        margin: 48px 0;
+    }
+
+    .login-container .brand-panel .brand-eyebrow {
+        margin-bottom: 18px;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .login-container .brand-panel .brand-message h2 {
+        width: 100%;
+        font-size: clamp(54px, 5.2vw, 78px) !important;
+        line-height: 1.12;
+        letter-spacing: normal !important;
+    }
+
+    .login-container .brand-panel .brand-message h2 .word-slide {
+        display: inline-block !important;
+        width: auto !important;
+        letter-spacing: normal !important;
+        white-space: nowrap;
+    }
+
+    .login-container .brand-panel .brand-description {
+        margin-top: 18px;
+        font-size: clamp(16px, 1.3vw, 20px);
+        line-height: 1.5;
+    }
+
+    .login-container .brand-panel .brand-supporting-text {
+        max-width: 560px;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .login-container .brand-panel .brand-footer {
+        width: 100%;
+        max-width: 650px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px 24px;
+        flex-wrap: wrap;
+        font-size: 12px;
+    }
+
+    .login-container .login-panel {
+        min-width: 0;
+        box-sizing: border-box;
+        padding: clamp(28px, 3vw, 52px);
+    }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+    .login-container .brand-panel {
+        padding-left: 36px;
+        padding-right: 36px;
+    }
+
+    .login-container .brand-panel .brand-identity img {
+        flex-basis: 68px !important;
+        width: 68px !important;
+        height: 68px !important;
+        min-width: 68px !important;
+        min-height: 68px !important;
+        max-width: 68px !important;
+        max-height: 68px !important;
+    }
+
+    .login-container .brand-panel .brand-message h2 {
+        font-size: clamp(48px, 5vw, 62px) !important;
+    }
+}
+
+/* Login desktop layout: 60% branding, 40% login form */
+@media (min-width: 901px) {
+    .login-container {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+    }
+}
+
+/* Login page: use the available width of the 40% right panel */
+@media (min-width: 901px) {
+    body > main.login-container {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+    }
+
+    body > main.login-container > .login-panel {
+        min-width: 0 !important;
+        padding: clamp(24px, 2.5vw, 40px) !important;
+        box-sizing: border-box !important;
+    }
+
+    body > main.login-container > .login-panel > .login-contents {
+        width: 100% !important;
+        max-width: 520px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    body > main.login-container > .login-panel .login-heading,
+    body > main.login-container > .login-panel form,
+    body > main.login-container > .login-panel .login-bottom {
+        width: 100% !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Forgot password: wider right panel content, matching login */
+@media (min-width: 901px) {
+    body > main.forgot-page {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+    }
+
+    body > main.forgot-page > .login-panel,
+    body > main.forgot-page > .forgot-panel {
+        min-width: 0 !important;
+        padding: clamp(24px, 2.5vw, 40px) !important;
+        box-sizing: border-box !important;
+    }
+
+    body > main.forgot-page .login-contents,
+    body > main.forgot-page .forgot-contents,
+    body > main.forgot-page .forgot-card {
+        width: 100% !important;
+        max-width: 520px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Forgot password: match the login page's 60/40 desktop layout */
+@media (min-width: 901px) {
+    body .forgot-page {
+        display: grid !important;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+        align-items: stretch !important;
+        justify-content: stretch !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh !important;
+        width: 100% !important;
+    }
+
+    body .forgot-page > .brand-panel {
+        min-width: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    body .forgot-page > .forgot-card {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        box-sizing: border-box !important;
+    }
+
+    body .forgot-page > .forgot-card > .forgot-body,
+    body .forgot-page > .forgot-card > .forgot-header {
+        width: 100% !important;
+        max-width: 520px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Login and forgot-password: add space above the HRMS description */
+.brand-panel .brand-description {
+    margin-top: 18px !important;
+}
+
+/* Increase spacing above the HRMS description on both pages */
+.brand-panel .brand-description {
+    margin-top: 30px !important;
+}
+
+/* Move the HUMAN RESOURCES eyebrow higher on both pages */
+.brand-panel .brand-eyebrow {
+    margin-top: 0 !important;
+}
+
+/* BCP institutional background for login and forgot-password pages */
+.brand-panel {
+    position: relative;
+    isolation: isolate;
+    background-image:
+        linear-gradient(
+            rgba(8, 35, 67, 0.62),
+            rgba(8, 35, 67, 0.72)
+        ),
+        url("/assets/bestlink.jpg") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Keep school branding and footer above the background */
+.brand-panel > .brand-identity,
+.brand-panel > .brand-footer {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* Shared login and password-recovery branding alignment */
+body .brand-panel {
+    position: relative !important;
+    box-sizing: border-box !important;
+}
+
+body .brand-panel > .brand-identity {
+    position: absolute !important;
+    top: clamp(28px, 4.5vh, 48px) !important;
+    left: clamp(28px, 3.5vw, 64px) !important;
+    right: clamp(28px, 3.5vw, 64px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+}
+
+body .brand-panel > .brand-identity img {
+    display: block !important;
+    flex: 0 0 72px !important;
+    width: 72px !important;
+    height: 72px !important;
+    max-width: 72px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+body .brand-panel > .brand-identity .brand-school-name {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    font-size: clamp(14px, 1.15vw, 18px) !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.025em !important;
+    overflow-wrap: normal !important;
+}
+
+body .brand-panel > .brand-identity .brand-school-name > span {
+    display: block !important;
+}
+
+body .brand-panel > .brand-footer {
+    position: absolute !important;
+    right: clamp(28px, 3.5vw, 64px) !important;
+    bottom: clamp(24px, 4vh, 40px) !important;
+    left: clamp(28px, 3.5vw, 64px) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    gap: 12px 24px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+body .brand-panel > .brand-footer span {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow-wrap: anywhere !important;
+}
+
+body .brand-panel > .brand-footer span:last-child {
+    text-align: right !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .brand-identity {
+        top: 24px !important;
+        left: 22px !important;
+        right: 22px !important;
+        gap: 12px !important;
+    }
+
+    body .brand-panel > .brand-identity img {
+        flex-basis: 56px !important;
+        width: 56px !important;
+        height: 56px !important;
+        max-width: 56px !important;
+    }
+
+    body .brand-panel > .brand-footer {
+        right: 22px !important;
+        bottom: 20px !important;
+        left: 22px !important;
+        gap: 8px 14px !important;
+    }
+}
+
+
+/* Final shared branding dimensions and alignment */
+@media (min-width: 761px) {
+    body .login-container,
+    body .forgot-page {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+    }
+}
+
+body .brand-panel > .brand-identity {
+    position: absolute !important;
+    top: 40px !important;
+    left: 48px !important;
+    right: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+body .brand-panel > .brand-identity img {
+    display: block !important;
+    flex: 0 0 72px !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    max-width: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+body .brand-panel > .brand-identity .brand-school-name {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    letter-spacing: .025em !important;
+}
+
+body .brand-panel > .brand-identity .brand-school-name > span {
+    display: block !important;
+}
+
+body .brand-panel > .brand-footer {
+    position: absolute !important;
+    right: 48px !important;
+    bottom: 32px !important;
+    left: 48px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    gap: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+body .brand-panel > .brand-footer span {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+body .brand-panel > .brand-footer span:last-child {
+    text-align: right !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .brand-identity {
+        top: 24px !important;
+        left: 22px !important;
+        right: 22px !important;
+        gap: 12px !important;
+    }
+
+    body .brand-panel > .brand-identity img {
+        flex-basis: 56px !important;
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        max-width: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+    }
+
+    body .brand-panel > .brand-identity .brand-school-name {
+        font-size: 14px !important;
+    }
+
+    body .brand-panel > .brand-footer {
+        right: 22px !important;
+        bottom: 20px !important;
+        left: 22px !important;
+    }
+}
+
+
+
+/* Shared announcements panel for login and password reset. */
+body .brand-panel > .public-announcements {
+    position: absolute;
+    top: 34%;
+    left: 48px;
+    right: 48px;
+    max-width: 520px;
+    max-height: 48%;
+    overflow: auto;
+    color: #17365c;
+    z-index: 2;
+}
+
+body .public-announcements-heading {
+    margin: 0 0 14px;
+    color: #17365c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+body .public-announcement-item {
+    margin: 0 0 12px;
+    padding: 0 0 10px 12px;
+    border-left: 2px solid #8aa7c8;
+    border-bottom: 1px solid rgba(23, 54, 92, .12);
+}
+
+body .public-announcement-kind {
+    margin-bottom: 3px;
+    color: #5c7593;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+body .public-announcement-title {
+    color: #17365c;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+body .public-announcement-item p {
+    margin: 4px 0 0;
+    color: #425873;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+body .public-announcement-meta {
+    margin-top: 5px;
+    color: #62758b;
+    font-size: 11px;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .public-announcements {
+        top: 29%;
+        left: 22px;
+        right: 22px;
+        max-height: 50%;
+    }
+
+    body .public-announcement-title {
+        font-size: 13px;
+    }
+
+    body .public-announcement-item p {
+        font-size: 11px;
+    }
+}
+
+/* Announcement panel: larger white typography */
+body .brand-panel > .public-announcements .public-announcements-heading {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    letter-spacing: .14em !important;
+    margin-bottom: 18px !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-kind {
+    color: rgba(255, 255, 255, .82) !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-title {
+    color: #ffffff !important;
+    font-size: 19px !important;
+    line-height: 1.4 !important;
+    font-weight: 700 !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-item p {
+    color: rgba(255, 255, 255, .92) !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-meta {
+    color: rgba(255, 255, 255, .78) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .public-announcements .public-announcements-heading {
+        font-size: 13px !important;
+    }
+
+    body .brand-panel > .public-announcements .public-announcement-title {
+        font-size: 16px !important;
+    }
+
+    body .brand-panel > .public-announcements .public-announcement-item p {
+        font-size: 12px !important;
+    }
+}
+
+/* Center the announcements panel in the brand area */
+body .brand-panel > .public-announcements {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) !important;
+    width: calc(100% - 96px) !important;
+    max-width: 520px !important;
+    max-height: 48% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    overflow-y: auto !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-item {
+    text-align: center !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .public-announcements {
+        width: calc(100% - 44px) !important;
+        max-height: 42% !important;
+    }
+}
+
+/* Keep the announcements panel centered, but left-align its text */
+body .brand-panel > .public-announcements,
+body .brand-panel > .public-announcements .public-announcement-item,
+body .brand-panel > .public-announcements .public-announcements-heading,
+body .brand-panel > .public-announcements .public-announcement-kind,
+body .brand-panel > .public-announcements .public-announcement-title,
+body .brand-panel > .public-announcements .public-announcement-item p,
+body .brand-panel > .public-announcements .public-announcement-meta {
+    text-align: left !important;
+}
+
+/* Position announcements at the top-right of the brand panel */
+body .brand-panel > .public-announcements {
+    top: 32px !important;
+    right: 36px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: min(420px, calc(100% - 72px)) !important;
+    max-width: 420px !important;
+    max-height: 45% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    overflow-y: auto !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-item,
+body .brand-panel > .public-announcements .public-announcements-heading,
+body .brand-panel > .public-announcements .public-announcement-kind,
+body .brand-panel > .public-announcements .public-announcement-title,
+body .brand-panel > .public-announcements .public-announcement-item p,
+body .brand-panel > .public-announcements .public-announcement-meta {
+    text-align: left !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .public-announcements {
+        top: 20px !important;
+        right: 22px !important;
+        left: auto !important;
+        width: calc(100% - 44px) !important;
+        max-width: none !important;
+        max-height: 38% !important;
+    }
+}
+
+/* Position announcements at the top-left of the brand panel */
+body .brand-panel > .public-announcements {
+    top: 32px !important;
+    left: 36px !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: min(420px, calc(100% - 72px)) !important;
+    max-width: 420px !important;
+    max-height: 45% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    overflow-y: auto !important;
+}
+
+body .brand-panel > .public-announcements .public-announcement-item,
+body .brand-panel > .public-announcements .public-announcements-heading,
+body .brand-panel > .public-announcements .public-announcement-kind,
+body .brand-panel > .public-announcements .public-announcement-title,
+body .brand-panel > .public-announcements .public-announcement-item p,
+body .brand-panel > .public-announcements .public-announcement-meta {
+    text-align: left !important;
+}
+
+@media (max-width: 760px) {
+    body .brand-panel > .public-announcements {
+        top: 20px !important;
+        left: 22px !important;
+        right: auto !important;
+        width: calc(100% - 44px) !important;
+        max-width: none !important;
+        max-height: 38% !important;
+    }
+}
+
+/* Smooth horizontal floating motion for decorative circles */
+@keyframes bcp-circle-drift {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 22px 0;
+    }
+}
+
+/* Target common decorative circle elements in the brand panel */
+body .brand-panel .circle,
+body .brand-panel .decorative-circle,
+body .brand-panel .floating-circle,
+body .brand-panel .orb {
+    animation: bcp-circle-drift 1.2s ease-in-out infinite;
+    will-change: translate;
+}
+
+/* Offset the motion so circles do not move in sync */
+body .brand-panel .circle:nth-of-type(2),
+body .brand-panel .decorative-circle:nth-of-type(2),
+body .brand-panel .floating-circle:nth-of-type(2),
+body .brand-panel .orb:nth-of-type(2) {
+    animation-delay: -3.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body .brand-panel .circle,
+    body .brand-panel .decorative-circle,
+    body .brand-panel .floating-circle,
+    body .brand-panel .orb {
+        animation: none !important;
+        will-change: auto;
+    }
+}
+
+/* One decorative circle with rapid horizontal movement */
+@keyframes bcp-circle-drift-fast {
+    0%, 100% { translate: 0 0; }
+    25%      { translate: 32px 0; }
+    50%      { translate: 0 0; }
+    75%      { translate: -32px 0; }
+}
+
+/* Give the first decorative circle a faster, more noticeable motion */
+body .brand-panel .circle:first-of-type,
+body .brand-panel .decorative-circle:first-of-type,
+body .brand-panel .floating-circle:first-of-type,
+body .brand-panel .orb:first-of-type {
+    animation: bcp-circle-drift-fast 0.8s ease-in-out infinite !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body .brand-panel .circle:first-of-type,
+    body .brand-panel .decorative-circle:first-of-type,
+    body .brand-panel .floating-circle:first-of-type,
+    body .brand-panel .orb:first-of-type {
+        animation: none !important;
+    }
+}
+
+/* ULTRA-SLOW, GENTLE BRAND PANEL CIRCLE MOTION */
+.brand-panel::before {
+    animation: brand-circle-gentle-a 20s ease-in-out infinite alternate !important;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.brand-panel::after {
+    animation: brand-circle-gentle-b 26s ease-in-out infinite alternate !important;
+    transform-origin: center;
+    will-change: transform;
+}
+
+@keyframes brand-circle-gentle-a {
+    from { transform: translate(-8px, -5px); }
+    to   { transform: translate(22px, 16px); }
+}
+
+@keyframes brand-circle-gentle-b {
+    from { transform: translate(8px, 5px); }
+    to   { transform: translate(-24px, -18px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-panel::before,
+    .brand-panel::after {
+        animation: none !important;
+        will-change: auto;
+    }
+}
+
+/* =========================================================
+   BCP BRAND PANEL — LINE GEOMETRY DESIGN
+   ========================================================= */
+
+.brand-panel {
+    --geo-blue: #183b63;
+    --geo-line: rgba(24, 59, 99, 0.19);
+    --geo-muted: #64758a;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    padding: clamp(26px, 4vw, 48px);
+    color: var(--geo-blue);
+    background-color: #f8fafc;
+    border: 1px solid var(--geo-line);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.brand-panel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(
+            135deg,
+            transparent calc(50% - 0.5px),
+            var(--geo-line) 50%,
+            transparent calc(50% + 0.5px)
+        ),
+        linear-gradient(
+            45deg,
+            transparent calc(50% - 0.5px),
+            rgba(24, 59, 99, 0.08) 50%,
+            transparent calc(50% + 0.5px)
+        );
+    background-size: 180px 180px, 260px 260px;
+    background-position: right top, left bottom;
+    opacity: 0.65;
+}
+
+.brand-panel > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ANNOUNCEMENTS */
+.public-announcements {
+    width: 100%;
+    max-width: 560px;
+    margin: auto 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.public-announcements-heading {
+    position: relative;
+    margin: 0 0 24px;
+    padding: 0 0 14px;
+    color: var(--geo-blue);
+    font-size: 23px;
+    font-weight: 650;
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+    border-bottom: 1px solid var(--geo-blue);
+}
+
+.public-announcements-heading::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 34px;
+    height: 5px;
+    background: var(--geo-blue);
+}
+
+/* ANNOUNCEMENT CARDS */
+.public-announcement-item {
+    position: relative;
+    margin: 0;
+    padding: 20px 18px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid var(--geo-line);
+    border-left: 2px solid var(--geo-blue);
+    border-radius: 0;
+    box-shadow: none;
+    transition: background-color 160ms ease,
+                border-color 160ms ease;
+}
+
+.public-announcement-item + .public-announcement-item {
+    margin-top: 12px;
+}
+
+.public-announcement-item::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 15px;
+    height: 15px;
+    border-top: 1px solid var(--geo-blue);
+    border-right: 1px solid var(--geo-blue);
+    pointer-events: none;
+}
+
+.public-announcement-item:hover {
+    background: #fff;
+    border-color: rgba(24, 59, 99, 0.4);
+    border-left-color: var(--geo-blue);
+}
+
+.public-announcement-kind {
+    display: table;
+    margin: 0 0 9px;
+    padding: 0 0 4px;
+    color: var(--geo-muted);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--geo-line);
+    border-radius: 0;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.public-announcement-title {
+    margin: 0;
+    color: var(--geo-blue);
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.public-announcement-item p {
+    margin: 7px 0 13px;
+    color: #526174;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
+.public-announcement-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding-top: 10px;
+    color: var(--geo-muted);
+    border-top: 1px solid rgba(24, 59, 99, 0.12);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* INSTITUTIONAL FOOTER */
+.brand-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px 20px;
+    width: 100%;
+    margin-top: 36px;
+    padding-top: 15px;
+    color: var(--geo-muted);
+    border-top: 1px solid var(--geo-line);
+    font-size: 10px;
+    font-weight: 550;
+    line-height: 1.7;
+    letter-spacing: 0.2px;
+}
+
+.brand-footer span {
+    display: block;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.brand-footer span + span {
+    text-align: right;
+}
+
+/* RESPONSIVE LAYOUT */
+@media (max-width: 768px) {
+    .brand-panel {
+        padding: 26px 22px;
+    }
+
+    .public-announcements {
+        max-width: none;
+    }
+
+    .public-announcements-heading {
+        margin-bottom: 20px;
+        font-size: 21px;
+    }
+
+    .public-announcement-item {
+        padding: 17px 15px;
+    }
+
+    .brand-footer {
+        margin-top: 28px;
+    }
+}
+
+@media (max-width: 420px) {
+    .brand-panel {
+        padding: 22px 16px;
+    }
+
+    .brand-footer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .brand-footer span + span {
+        text-align: left;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-announcement-item {
+        transition: none;
+    }
+}
+
+/* END BCP BRAND PANEL — LINE GEOMETRY DESIGN */
+
+
+/* Login and authentication primary button color */
+.login-container button[type="submit"],
+.login-container input[type="submit"],
+.login-container .btn-primary,
+#loginBtn {
+    background-color: #200082 !important;
+    border-color: #200082 !important;
+}
+
+.login-container button[type="submit"]:hover,
+.login-container input[type="submit"]:hover,
+.login-container .btn-primary:hover,
+#loginBtn:hover {
+    background-color: #190066 !important;
+    border-color: #190066 !important;
+}
+
+/* Final login button color */
+html body #loginBtn,
+html body button#loginBtn[type="submit"] {
+    background: #200082 !important;
+    background-color: #200082 !important;
+    border-color: #200082 !important;
+}
+
+html body #loginBtn:hover,
+html body #loginBtn:focus,
+html body button#loginBtn[type="submit"]:hover {
+    background: #190066 !important;
+    background-color: #190066 !important;
+    border-color: #190066 !important;
+}
+
+/* Public announcements: remove backgrounds and hide scrollbar */
+.public-announcements,
+.public-announcement-item {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.public-announcements {
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.public-announcements::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Public announcements: transparent background and hidden scrollbar */
+html body .brand-panel .public-announcements,
+html body .brand-panel .public-announcements *,
+html body .brand-panel .public-announcements::before,
+html body .brand-panel .public-announcements::after {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+html body .brand-panel .public-announcements {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+html body .brand-panel .public-announcements::-webkit-scrollbar,
+html body .brand-panel .public-announcements *::-webkit-scrollbar,
+html body .brand-panel::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Keep scrolling available while hiding the scrollbar */
+html body .brand-panel .public-announcements {
+    overflow-y: auto;
+}
+
+
+/* Right login panel: consistent BCP logo alignment and sizing */
+html body .login-panel .login-contents .school-logo {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 27px !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+html body .login-panel .login-contents .school-logo img {
+    display: block !important;
+    flex: 0 0 88px !important;
+    width: 88px !important;
+    height: 88px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+@media (max-width: 760px) {
+    html body .login-panel .login-contents .school-logo img {
+        flex-basis: 72px !important;
+        width: 72px !important;
+        height: 72px !important;
+    }
+}
+
+
+/* Forgot password: Send Verification Code button */
+html body .forgot-button,
+html body button.forgot-button[type="submit"] {
+    background-color: #200082 !important;
+    border-color: #200082 !important;
+}
+
+html body .forgot-button:hover,
+html body .forgot-button:focus,
+html body button.forgot-button[type="submit"]:hover {
+    background-color: #190066 !important;
+    border-color: #190066 !important;
+}
+
+
+/* Public announcements: remove subtle borders and divider lines */
+html body .brand-panel .public-announcements,
+html body .brand-panel .public-announcement-item,
+html body .brand-panel .public-announcements-heading,
+html body .brand-panel .public-announcement-kind,
+html body .brand-panel .public-announcement-title,
+html body .brand-panel .public-announcement-meta,
+html body .brand-panel .public-announcement-item p {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+html body .brand-panel .public-announcement-item::before,
+html body .brand-panel .public-announcement-item::after,
+html body .brand-panel .public-announcements::before,
+html body .brand-panel .public-announcements::after {
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+
+/* Right login panel: fix BCP logo alignment without affecting other content */
+html body .login-panel .school-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 auto 27px !important;
+    padding: 0 !important;
+}
+
+html body .login-panel .school-logo img {
+    display: block !important;
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 760px) {
+    html body .login-panel .school-logo img {
+        width: 68px !important;
+        height: 68px !important;
+        min-width: 68px !important;
+        max-width: 68px !important;
+    }
+}
+
+
+/* Shared announcement card design: login and forgot password */
+html body .brand-panel > .public-announcements {
+    position: absolute !important;
+    top: 50% !important;
+    left: clamp(22px, 3.5vw, 48px) !important;
+    right: clamp(22px, 3.5vw, 48px) !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    width: auto !important;
+    max-width: 520px !important;
+    max-height: 46% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow-y: auto !important;
+    text-align: left !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+html body .brand-panel > .public-announcements::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcements-heading {
+    margin: 0 0 18px !important;
+    padding: 0 0 12px !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 0 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    letter-spacing: .12em !important;
+    text-transform: uppercase !important;
+    text-align: left !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-item {
+    position: relative !important;
+    margin: 0 0 14px !important;
+    padding: 0 0 14px 14px !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-left: 2px solid rgba(255, 255, 255, .65) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, .24) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: left !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-item::before,
+html body .brand-panel > .public-announcements .public-announcement-item::after {
+    content: none !important;
+    display: none !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-kind {
+    display: block !important;
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+    color: rgba(255, 255, 255, .78) !important;
+    background: transparent !important;
+    border: 0 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+    letter-spacing: .07em !important;
+    text-transform: uppercase !important;
+    text-align: left !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-title {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 0 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    overflow-wrap: anywhere !important;
+    text-align: left !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-item p {
+    margin: 6px 0 8px !important;
+    padding: 0 !important;
+    color: rgba(255, 255, 255, .9) !important;
+    background: transparent !important;
+    border: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    overflow-wrap: anywhere !important;
+    text-align: left !important;
+}
+
+html body .brand-panel > .public-announcements .public-announcement-meta {
+    display: block !important;
+    margin: 6px 0 0 !important;
+    padding: 0 !important;
+    color: rgba(255, 255, 255, .72) !important;
+    background: transparent !important;
+    border: 0 !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+}
+
+@media (max-width: 760px) {
+    html body .brand-panel > .public-announcements {
+        top: 50% !important;
+        left: 22px !important;
+        right: 22px !important;
+        width: auto !important;
+        max-width: none !important;
+        max-height: 44% !important;
+    }
+
+    html body .brand-panel > .public-announcements .public-announcement-title {
+        font-size: 15px !important;
+    }
+
+    html body .brand-panel > .public-announcements .public-announcement-item p {
+        font-size: 12px !important;
+    }
+}
+
+
+/* Keep announcements at the top-left on login and forgot-password pages */
+html body .brand-panel > .public-announcements {
+    top: 32px !important;
+    left: clamp(22px, 3.5vw, 48px) !important;
+    right: clamp(22px, 3.5vw, 48px) !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    max-height: calc(100% - 64px) !important;
+    overflow-y: auto !important;
+}
+
+@media (max-width: 760px) {
+    html body .brand-panel > .public-announcements {
+        top: 24px !important;
+        left: 22px !important;
+        right: 22px !important;
+        bottom: auto !important;
+        max-height: calc(100% - 48px) !important;
+        transform: none !important;
+    }
+}
+
+/* Login subtitle: muted, centered, single line */
+.login-heading .login-subtitle {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: 8px 0 0;
+    color: #8a94a3 !important;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4 !important;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+/* FINAL AUTH ANNOUNCEMENT PANEL HEIGHT FIX */
+html body .login-container > .brand-panel > .public-announcements {
+    box-sizing: border-box !important;
+    max-height: calc(100% - 120px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+}
+
+@media (min-width: 761px) {
+    html body .login-container > .brand-panel > .public-announcements {
+        max-height: calc(100vh - 120px) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    html body .login-container > .brand-panel > .public-announcements {
+        max-height: calc(100% - 96px) !important;
+    }
+}
+
+
+
+/* BCP LOGIN SKELETON LOADING
+   Scoped initialization shimmer.
+   Original layout dimensions are preserved.
+   ========================================================= */
+
+@keyframes bcpLoginSkeletonShimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+html.bcp-login-skeleton-pending .login-container {
+    pointer-events: none;
+}
+
+html.bcp-login-skeleton-pending .login-panel .school-logo {
+    background-color: #e2e8f0 !important;
+    background-image: linear-gradient(
+        90deg,
+        #f0f4f8 25%,
+        #dce3eb 50%,
+        #f0f4f8 75%
+    ) !important;
+    background-size: 200% 100% !important;
+    animation: bcpLoginSkeletonShimmer 1.5s ease-in-out infinite;
+    border-radius: 50%;
+}
+
+html.bcp-login-skeleton-pending .login-panel .school-logo img {
+    visibility: hidden !important;
+}
+
+html.bcp-login-skeleton-pending .login-panel .login-heading h1,
+html.bcp-login-skeleton-pending .login-panel .login-subtitle,
+html.bcp-login-skeleton-pending .brand-panel .brand-message h2,
+html.bcp-login-skeleton-pending .brand-panel .brand-description,
+html.bcp-login-skeleton-pending .brand-panel .brand-supporting-text {
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    background-color: #e2e8f0 !important;
+    background-image: linear-gradient(
+        90deg,
+        #f0f4f8 25%,
+        #dce3eb 50%,
+        #f0f4f8 75%
+    ) !important;
+    background-size: 200% 100% !important;
+    background-clip: border-box !important;
+    animation: bcpLoginSkeletonShimmer 1.5s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+html.bcp-login-skeleton-pending .login-panel input {
+    color: transparent !important;
+    caret-color: transparent !important;
+    background-color: #e2e8f0 !important;
+    background-image: linear-gradient(
+        90deg,
+        #f0f4f8 25%,
+        #dce3eb 50%,
+        #f0f4f8 75%
+    ) !important;
+    background-size: 200% 100% !important;
+    animation: bcpLoginSkeletonShimmer 1.5s ease-in-out infinite;
+    border-color: transparent !important;
+}
+
+html.bcp-login-skeleton-pending .login-panel input::placeholder {
+    color: transparent !important;
+}
+
+html.bcp-login-skeleton-pending #loginBtn {
+    color: transparent !important;
+    background-color: #e2e8f0 !important;
+    background-image: linear-gradient(
+        90deg,
+        #f0f4f8 25%,
+        #dce3eb 50%,
+        #f0f4f8 75%
+    ) !important;
+    background-size: 200% 100% !important;
+    animation: bcpLoginSkeletonShimmer 1.5s ease-in-out infinite;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+html.bcp-login-skeleton-pending #loginBtn * {
+    color: transparent !important;
+    visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.bcp-login-skeleton-pending .login-container,
+    html.bcp-login-skeleton-pending .school-logo,
+    html.bcp-login-skeleton-pending .login-heading h1,
+    html.bcp-login-skeleton-pending .login-subtitle,
+    html.bcp-login-skeleton-pending .brand-message h2,
+    html.bcp-login-skeleton-pending .brand-description,
+    html.bcp-login-skeleton-pending .brand-supporting-text,
+    html.bcp-login-skeleton-pending .login-panel input,
+    html.bcp-login-skeleton-pending #loginBtn {
+        animation: none !important;
+    }
+}
+
+/* END BCP LOGIN SKELETON LOADING */
+
+/* BRAND PANEL - REDUCE BACKGROUND IMAGE ZOOM */
+html body .brand-panel {
+    background-size: 100% 100% !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+

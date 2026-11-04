@@ -1,0 +1,78 @@
+
+/*
+ * Shared HRMS typography.
+ * Preserve Font Awesome, Bootstrap Icons, Material Icons and Glyphicons.
+ */
+html body,
+html body :not(i):not(svg):not(path)
+    :not([class^="fa-"]):not([class*=" fa-"])
+    :not(.fa):not(.fas):not(.far):not(.fab)
+    :not(.material-icons):not(.material-symbols-outlined)
+    :not(.glyphicon):not(.bi) {
+    font-family: "Montserrat", sans-serif !important;
+}
+
+html body input,
+html body select,
+html body textarea,
+html body button {
+    font-family: "Montserrat", sans-serif !important;
+}
+
+/* Shared HRMS module heading typography */
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.page-header,
+.content-header h1,
+.content-header h2,
+.module-header,
+.module-header h1,
+.module-header h2,
+.section-header,
+.section-header h1,
+.section-header h2,
+.card-header,
+.box-header,
+.panel-heading,
+.modal-title,
+.widget-title,
+.header-title,
+.main-header .logo,
+.sidebar > h3 {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Preserve icon fonts inside headings and header elements */
+h1 .fa, h2 .fa, h3 .fa, h4 .fa, h5 .fa, h6 .fa,
+h1 .fas, h2 .fas, h3 .fas, h4 .fas, h5 .fas, h6 .fas,
+h1 .far, h2 .far, h3 .far, h4 .far, h5 .far, h6 .far,
+h1 .fab, h2 .fab, h3 .fab, h4 .fab, h5 .fab, h6 .fab,
+h1 .bi, h2 .bi, h3 .bi, h4 .bi, h5 .bi, h6 .bi,
+h1 .material-icons, h2 .material-icons,
+h3 .material-icons, h4 .material-icons,
+h5 .material-icons, h6 .material-icons,
+h1 .glyphicon, h2 .glyphicon, h3 .glyphicon,
+h4 .glyphicon, h5 .glyphicon, h6 .glyphicon {
+    font-family: inherit;
+}
+
+/* Final shared module heading font enforcement */
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body .page-title,
+body .module-header,
+body .section-header,
+body .content-header h1,
+body .content-header h2,
+body .card-header,
+body .box-header,
+body .panel-heading,
+body .modal-title,
+body .widget-title,
+body .header-title {
+    font-family: "Montserrat", sans-serif !important;
+}
