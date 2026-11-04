@@ -1,8 +1,6 @@
 <?php
 // auth/guard.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/session.php';
 
 if (!isset($_SESSION['employee_id']) || !isset($_SESSION['role_id'])) {
     $isFetch = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) === 'XMLHttpRequest'

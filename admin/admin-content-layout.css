@@ -1,0 +1,70 @@
+/* Consistent layout across Legal and Compliance Admin pages */
+
+main.content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 60px 20px 30px;
+}
+
+main.content > .page-head {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+main.content > .summary-grid,
+main.content > .panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+main.content > .page-head > div {
+    min-width: 0;
+}
+
+main.content .admin-breadcrumb {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+    main.content {
+        padding: 60px 20px 24px;
+    }
+
+    main.content > .page-head {
+        flex-wrap: wrap;
+    }
+
+    main.content .admin-breadcrumb {
+        margin-left: 0;
+    }
+}
+
+/* Account dropdown: left-aligned logout icon and label */
+.account-dropdown button.logout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.account-dropdown button.logout > svg {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.account-dropdown button.logout > span {
+    flex: 0 1 auto;
+    text-align: left;
+}

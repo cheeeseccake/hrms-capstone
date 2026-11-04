@@ -1,89 +1,223 @@
 <?php
-// auth/login-disclaimer.php
-// Login disclaimer modal/content
+/*
+ * HRMS Login Disclaimer
+ * Shows once after a successful login.
+ */
 
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    @session_start();
 }
 
-if (!empty($_SESSION['show_login_disclaimer'])) {
-    unset($_SESSION['show_login_disclaimer']);
+if (
+    empty($_SESSION['show_login_disclaimer']) ||
+    !empty($_SESSION['disclaimer_acknowledged'])
+) {
+    return;
+}
+
+if (
+    empty($_SESSION['disclaimer_csrf_token']) ||
+    !is_string($_SESSION['disclaimer_csrf_token'])
+) {
+    $_SESSION['disclaimer_csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
-<link rel="stylesheet" href="/hrms-capstone/auth/login-disclaimer.css?v=<?php echo filemtime(__DIR__ . '/login-disclaimer.css'); ?>">
-<div id="loginDisclaimerModal" tabindex="-1" aria-labelledby="loginDisclaimerModalLabel" aria-hidden="true" role="dialog">
-    <div class="login-disclaimer-modal-dialog modal-dialog-centered">
-        <div class="login-disclaimer-modal-content">
-            <div class="login-disclaimer-modal-header">
-                <div>
-                    <p class="login-disclaimer-eyebrow">School HR Clinic</p>
-                    <h5 class="login-disclaimer-modal-title" id="loginDisclaimerModalLabel">System Notice</h5>
-                </div>
-                <button type="button" class="login-disclaimer-close-btn" aria-label="Close" id="loginDisclaimerClose">&times;</button>
+
+<div
+    id="hrmsLoginDisclaimer"
+    class="hrms-disclaimer-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="hrmsDisclaimerTitle"
+    aria-describedby="hrmsDisclaimerText"
+>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<div class="hrms-disclaimer-modal">
+
+        <div class="hrms-disclaimer-header">
+            <div class="hrms-disclaimer-icon" aria-hidden="true">
+                <span>!</span>
             </div>
-            <div class="login-disclaimer-modal-body">
-                <p>Welcome to the School HR Clinic Management System. This system supports authorized school personnel with clinic and employee health services.</p>
-                <p><strong>System updates:</strong> The system is being improved over time, so features, screens, and procedures may change. Please follow the latest instructions and contact your system administrator if you notice an issue.</p>
-                <p class="mb-0"><strong>Privacy reminder:</strong> Health and employee information is confidential. Access only the information needed for your duties, keep your login details private, and log out after each session. Follow your school's policies when handling records.</p>
-            </div>
-            <div class="login-disclaimer-modal-footer">
-                <button type="button" class="login-disclaimer-btn login-disclaimer-btn-primary" id="loginDisclaimerConfirm">I Understand</button>
+
+            <div>
+                <h2 id="hrmsDisclaimerTitle">System Disclaimer</h2>
+                <p>Important information before continuing</p>
             </div>
         </div>
+
+        <div class="hrms-disclaimer-body" id="hrmsDisclaimerText">
+
+            <p>
+                This Human Resource Management System is intended to support
+                the management, monitoring, documentation, and organization
+                of human resource, compliance, and legal-related information.
+            </p>
+
+            <p>
+                The information, recommendations, assessments, references,
+                suggested actions, and decision-support outputs provided by
+                this system are intended for administrative and informational
+                purposes only.
+            </p>
+
+            <p>
+                <strong>
+                    System information and functionality may be updated,
+                    modified, or changed from time to time.
+                </strong>
+                Changes may be made to reflect updates to organizational
+                policies, procedures, labor laws, regulations, compliance
+                requirements, or system functionality.
+            </p>
+
+            <div class="hrms-disclaimer-important">
+                <div class="hrms-disclaimer-important-title">
+                    Important Legal Notice
+                </div>
+
+                <p>
+                    Any recommendation, assessment, suggested action,
+                    legal reference, or decision-support output generated
+                    or displayed by this system should not be considered
+                    a final legal determination, legal advice, or a substitute
+                    for professional legal judgment.
+                </p>
+
+                <p>
+                    <strong>
+                        Information or decisions provided by this system do
+                        not replace the review, professional judgment, or
+                        final decision of a qualified lawyer, legal counsel,
+                        or other authorized legal professional.
+                    </strong>
+                </p>
+
+                <p>
+                    Legal, disciplinary, employment, or compliance decisions
+                    requiring professional judgment must be reviewed and
+                    determined by the appropriate authorized personnel and,
+                    when necessary, a qualified lawyer or legal counsel.
+                </p>
+            </div>
+
+            <p>
+                Users are responsible for reviewing relevant information,
+                protecting confidential records, and using the system only
+                for legitimate and authorized organizational purposes.
+            </p>
+
+            <p>
+                By continuing, you acknowledge that you have read and
+                understood this disclaimer and agree to use the system
+                responsibly and in accordance with applicable organizational
+                policies, procedures, laws, and regulations.
+            </p>
+
+        </div>
+
+        <div class="hrms-disclaimer-footer">
+            <button
+                type="button"
+                id="hrmsDisclaimerAccept"
+                class="hrms-disclaimer-accept"
+            >
+                I Understand
+            </button>
+        </div>
+
     </div>
 </div>
+
+<style>
+<?php readfile(__DIR__ . '/../assets/css/hrms-neomorphism.css'); ?>
+</style>
+
 <script>
-(function() {
-    var modalEl = document.getElementById('loginDisclaimerModal');
-    var closeBtn = document.getElementById('loginDisclaimerClose');
-    var confirmBtn = document.getElementById('loginDisclaimerConfirm');
-    
-    if (!modalEl) return;
-    
-    // Show modal
-    modalEl.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    
-    // Focus trap
-    var focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    var firstFocusable = focusableElements[0];
-    var lastFocusable = focusableElements[focusableElements.length - 1];
-    
-    if (firstFocusable) firstFocusable.focus();
-    
-    function handleKeydown(e) {
-        if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstFocusable) {
-                e.preventDefault();
-                lastFocusable.focus();
-            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-                e.preventDefault();
-                firstFocusable.focus();
-            }
-        }
-        if (e.key === 'Escape') {
-            closeModal();
+(function () {
+    function placeDisclaimerOnTop() {
+        var overlay = document.getElementById('hrmsLoginDisclaimer');
+
+        if (overlay && document.body && overlay.parentElement !== document.body) {
+            document.body.appendChild(overlay);
         }
     }
-    
-    function closeModal() {
-        modalEl.classList.remove('show');
-        document.body.style.overflow = '';
-        document.removeEventListener('keydown', handleKeydown);
+
+    // Run immediately when possible, including when this component
+    // is included after DOMContentLoaded.
+    placeDisclaimerOnTop();
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', placeDisclaimerOnTop);
     }
-    
-    document.addEventListener('keydown', handleKeydown);
-    
-    // Close on button clicks
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (confirmBtn) confirmBtn.addEventListener('click', closeModal);
-    
-    // Close on backdrop click
-    modalEl.addEventListener('click', function(e) {
-        if (e.target === modalEl) {
-            closeModal();
-        }
-    });
 })();
 </script>
-<?php
-}
+
+<script>
+(function () {
+    'use strict';
+
+    var overlay = document.getElementById('hrmsLoginDisclaimer');
+    var acceptButton = document.getElementById('hrmsDisclaimerAccept');
+    var csrfToken = <?= json_encode($_SESSION['disclaimer_csrf_token']) ?>;
+
+    if (!overlay || !acceptButton) {
+        return;
+    }
+
+    var originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    function closeDisclaimer() {
+        overlay.remove();
+        document.body.style.overflow = originalOverflow || '';
+
+        document.dispatchEvent(new CustomEvent('hrms:disclaimerAccepted'));
+    }
+
+    acceptButton.addEventListener('click', function () {
+        if (acceptButton.disabled) {
+            return;
+        }
+
+        acceptButton.disabled = true;
+
+        fetch('/auth/acknowledge-disclaimer.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-Token': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(function (response) {
+            return response.json().then(function (data) {
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || 'Acknowledgment could not be saved.'
+                    );
+                }
+
+                return data;
+            });
+        })
+        .then(function (data) {
+            window.location.replace(
+                data.redirect || '/modules/compliance/index.php?page=dashboard-overview'
+            );
+        })
+        .catch(function (error) {
+            acceptButton.disabled = false;
+
+            alert(
+                error.message ||
+                'Unable to confirm acknowledgment. Please try again.'
+            );
+        });
+    });
+
+    acceptButton.focus();
+})();
+</script>
