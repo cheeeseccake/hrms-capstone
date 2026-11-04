@@ -55,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             u.employee_id, 
             e.role_id,
             u.password,
+            u.status AS account_status,
+            u.first_time_login,
             e.employee_code,
             e.first_name,
             e.middle_name,
@@ -70,12 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ON e.employee_id = u.employee_id
         INNER JOIN em_roles r
             ON r.role_id = e.role_id
-        INNER JOIN em_positions p
+        LEFT JOIN em_positions p
             ON p.position_id = e.position_id
         LEFT JOIN em_departments d
             ON d.department_id = e.department_id
         WHERE e.employee_id = :employeeid
         AND e.employment_status = 'Active'
+        AND u.status = 'Active'
         LIMIT 1
     ");
     $stmt->bindParam(':employeeid', $employeeid);
@@ -87,6 +90,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // ── Success: clear attempt tracking & build session ───────────────────
         unset($_SESSION[$key]);
 
+        // First-time accounts receive a restricted session only.
+        if ((int) ($user['first_time_login'] ?? 0) === 1) {
+            session_regenerate_id(true);
+
+            // Remove any existing standard employee authentication state.
+            unset(
+                $_SESSION['user_id'],
+                $_SESSION['employee_id'],
+                $_SESSION['employee_code'],
+                $_SESSION['employee_name'],
+                $_SESSION['role_id'],
+                $_SESSION['role_name'],
+                $_SESSION['position_id'],
+                $_SESSION['position_name'],
+                $_SESSION['department_id'],
+                $_SESSION['department_name'],
+                $_SESSION['last_activity'],
+                $_SESSION['show_login_disclaimer']
+            );
+
+            $_SESSION['first_time_login_user_id'] = (int) $user['user_id'];
+            $_SESSION['first_time_login_employee_id'] = (int) $user['employee_id'];
+            $_SESSION['first_time_login_started_at'] = time();
+
+            echo json_encode([
+                'success' => true,
+                'redirect' => 'change-first-password.php'
+            ]);
+            exit();
+        }
+
+        // Normal accounts continue through the existing login flow.
         $_SESSION['user_id']        = $user['user_id'];
         $_SESSION['employee_id']    = $user['employee_id'];
         $_SESSION['employee_code']  = $user['employee_code'];
@@ -100,7 +135,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['department_id']   = $user['department_id'];
         $_SESSION['department_name'] = $user['department_name'];
         $_SESSION['last_activity'] = time();
+
+        // Require explicit system disclaimer acknowledgment for this login.
         $_SESSION['show_login_disclaimer'] = true;
+        $_SESSION['disclaimer_acknowledged'] = false;
+        unset($_SESSION['disclaimer_return_to']);
 
         $updateLogin = $conn->prepare("
             UPDATE user_account
@@ -111,6 +150,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateLogin->execute([
             ':user_id' => $user['user_id']
         ]);
+
+        // Update login presence while preserving the employee's saved availability.
+        $presenceLogin = $conn->prepare("
+            INSERT INTO lc_employee_messaging_presence
+                (employee_id, status, last_seen, login_status)
+            VALUES (:eid, 'online', CURRENT_TIMESTAMP, 'logged_in')
+            ON DUPLICATE KEY UPDATE
+                login_status = 'logged_in',
+                last_seen = CURRENT_TIMESTAMP
+        ");
+        $presenceLogin->execute([
+            ':eid' => (int) $user['employee_id']
+        ]);
+
 
         $redirectMap = [
             2 => 'modules/recruitment/index.php',
@@ -125,9 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             11 => 'modules/clinic/index.php',
             12 => 'modules/engagement/index.php',
             13 => 'modules/portal/index.php',
-            26 => 'modules/compliance/index.php'
+            26 => 'modules/compliance/index.php',
 
-        ];
+            27 => 'modules/compliance/index.php',];
 
         $role = (int) $user['role_id'];
         $roleName = strtolower(trim($user['role_name']));
@@ -145,9 +198,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
+        // Return to the user's normal module after acknowledgment.
+        $_SESSION['disclaimer_return_to'] = '/' . ltrim($redirect, '/');
+
         echo json_encode([
             'success'  => true,
-            'redirect' => $redirect,
+            'redirect' => '/auth/disclaimer.php',
         ]);
         exit();
     } else {
