@@ -189,19 +189,19 @@ try {
 
             try {
                 $db->prepare("INSERT INTO lc_report_history (id, report_id, action, performed_by, performed_by_name, notes, created_at) VALUES (NULL, :rid, 'submit', :uid, :uname, :notes, NOW())")
-                    ->execute([':rid' => $reportId, ':uid' => $userId, ':uname' => $userName, ':notes' => 'Report ' . $reportLabel . ' submitted to Directress']);
+                    ->execute([':rid' => $reportId, ':uid' => $userId, ':uname' => $userName, ':notes' => 'Report ' . $reportLabel . ' submitted to School Coordinator']);
             } catch (Throwable $e) {
                 $debug['history_error'] = $e->getMessage();
             }
 
             try {
                 $stmt = $db->prepare("INSERT INTO lc_notifications (id, title, message, type, module, is_read, created_at) VALUES (NULL, :title, :message, 'info', 'Audit & Reporting', 0, NOW())");
-                $stmt->execute([':title' => 'Report Submitted', ':message' => $reportLabel . ' has been submitted to the Directress.']);
+                $stmt->execute([':title' => 'Report Submitted', ':message' => $reportLabel . ' has been submitted to the School Coordinator.']);
             } catch (Throwable $e) {
                 $debug['notification_error'] = $e->getMessage();
             }
 
-            echo json_encode(['success' => true, 'message' => $reportLabel . ' submitted to Directress.', 'report_id' => $reportId, 'debug' => $debug]);
+            echo json_encode(['success' => true, 'message' => $reportLabel . ' submitted to School Coordinator.', 'report_id' => $reportId, 'debug' => $debug]);
             exit;
 
         case 'schedule_report':
