@@ -237,7 +237,7 @@ $totalAudit = count($auditTrail);
                       <td class="ir-action-cell" style="text-align:right;">
                         <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arPreview('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['export']) ?>')" title="Preview"><i class="bi bi-eye"></i></button>
                         <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arGeneratePDF('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['export']) ?>')" title="Generate PDF"><i class="bi bi-file-earmark-pdf"></i></button>
-                        <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arSendToDirectress('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['label']) ?>')" title="Send to Directress"><i class="bi bi-send"></i></button>
+                        <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arSendToSchoolCoordinator('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['label']) ?>')" title="Send to School Coordinator"><i class="bi bi-send"></i></button>
                       </td>
                     </tr>
                     <?php endforeach; ?>
@@ -277,7 +277,7 @@ $totalAudit = count($auditTrail);
                       <td class="ir-action-cell" style="text-align:right;">
                         <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arPreview('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['export']) ?>')" title="Preview"><i class="bi bi-eye"></i></button>
                         <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arGeneratePDF('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['export']) ?>')" title="Generate PDF"><i class="bi bi-file-earmark-pdf"></i></button>
-                        <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arSendToDirectress('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['label']) ?>')" title="Send to Directress"><i class="bi bi-send"></i></button>
+                        <button type="button" class="ir-btn ir-btn-ghost ir-btn-xs" onclick="arSendToSchoolCoordinator('<?= htmlspecialchars($rpt['key']) ?>', '<?= htmlspecialchars($rpt['label']) ?>')" title="Send to School Coordinator"><i class="bi bi-send"></i></button>
                       </td>
                     </tr>
                     <?php endforeach; ?>
@@ -320,7 +320,7 @@ $totalAudit = count($auditTrail);
                       </td>
                       <td><span class="ir-type-badge"><?= htmlspecialchars($sr['frequency'] ?? 'Monthly') ?></span></td>
                       <td><span class="ir-emp-no"><?= !empty($sr['next_run']) ? date('M d, Y', strtotime($sr['next_run'])) : '—' ?></span></td>
-                      <td><div class="ir-emp-name"><?= htmlspecialchars($sr['recipient_email'] ?? 'Directress') ?></div></td>
+                      <td><div class="ir-emp-name"><?= htmlspecialchars($sr['recipient_email'] ?? 'School Coordinator') ?></div></td>
                       <td>
                         <?php if (!empty($sr['active'])) : ?>
                           <span class="ir-status-stamp ir-status-stamp--info">Active</span>
@@ -922,19 +922,19 @@ $totalAudit = count($auditTrail);
  function arGeneratePDF(key, exportType) {
    window.open(getApiBase() + exportType + '.php?key=' + encodeURIComponent(key) + '&format=pdf', '_blank');
  }
- function arSendToDirectress(key, label) {
+ function arSendToSchoolCoordinator(key, label) {
    var fd = new FormData();
    fd.append('action', 'send_report');
    fd.append('report_key', key);
    fd.append('report_label', label);
-   postForm(getApiBase() + 'audit_report_action.php', fd, 'Report sent to Directress.');
+   postForm(getApiBase() + 'audit_report_action.php', fd, 'Report sent to School Coordinator.');
  }
  function arSendNow(key) {
    var fd = new FormData();
    fd.append('action', 'send_report');
    fd.append('report_key', key);
    fd.append('report_label', key);
-   postForm(getApiBase() + 'audit_report_action.php', fd, 'Report sent to Directress.');
+   postForm(getApiBase() + 'audit_report_action.php', fd, 'Report sent to School Coordinator.');
  }
  function submitScheduleForm() {
    var form = document.getElementById('arScheduleForm');
